@@ -5,6 +5,8 @@
   These scripts automate the process of auditing against and deploying CIS benchmarks. Currently, I only have plans to have a deployment script for the registry items (for those who want them) and an audit script.
   I have no plans currently to create a complex HTML report that tells you exactly which controls are enabled versus which are disabled, but rather just a percentage output per section and total.
   These scripts were made primarily for my use case but I felt like I should share them as others may find them useful.
+
+  I am new to using GitHub so please keep that in mind. I also am pretty new to scripting and realize my scripts are pretty busy and rudimentary but I wanted it to all be contained in 1 file. I am open to any feedback or suggestions you may have to help me grow. Please use the discussions if you would like to discuss something with me.
 ## Use Case:
   Currently, I am deploying these scripts to my devices in tiers to test for issues amongst my devices, then will "enforce" the settings with the GPO settings. There are some controls that my organization deems "not necessary" and we have chosen to modify these scripts to fit our needs but the scripts provided are unmodified and exactly match the CIS benchmark 
   recommendations. I encourage you to review them and test them accordingly for your organization and see if you should disable any. We then use our RMM tool to deploy them directly to the workstations. The audit script is used to assess the CIS Benchmark compliance percentage. Only want L1 keys that might be 70% total compliance, etc.
