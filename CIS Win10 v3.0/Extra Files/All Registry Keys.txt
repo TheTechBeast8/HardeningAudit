@@ -1,7 +1,6 @@
-####L1#### 
-#Section 1
+#L1Section1
 HKLM\System\CurrentControlSet\Control\SAM:RelaxMinimumPasswordLengthLimits 1
-#Section 2
+#L1Section2
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:NoConnectedUser 3
 HKLM\SYSTEM\CurrentControlSet\Control\Lsa:LimitBlankPasswordUse 1
 HKLM\SYSTEM\CurrentControlSet\Control\Lsa:SCENoApplyLegacyAuditPolicy 1 
@@ -53,7 +52,7 @@ HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:EnableSecureUIAPa
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:EnableLUA 1
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:PromptOnSecureDesktop 1
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:EnableVirtualization 1
-#Section 5
+#L1Section5
 HKLM\SYSTEM\CurrentControlSet\Services\Browser:Start 4
 HKLM\SYSTEM\CurrentControlSet\Services\IISADMIN:Start 4
 HKLM\SYSTEM\CurrentControlSet\Services\irmon:Start 4
@@ -75,7 +74,7 @@ HKLM\SYSTEM\CurrentControlSet\Services\XboxGipSvc:Start 4
 HKLM\SYSTEM\CurrentControlSet\Services\XblAuthManager:Start 4
 HKLM\SYSTEM\CurrentControlSet\Services\XblGameSave:Start 4
 HKLM\SYSTEM\CurrentControlSet\Services\XboxNetApiSvc:Start 4
-#Section 9
+#L1Section9
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile:EnableFirewall 1
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile:DefaultInboundAction 1
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile:DisableNotifications 1
@@ -92,7 +91,7 @@ HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging:LogFilePa
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging:LogFileSize x>16384 #set to 40000
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging:LogDroppedPackets 1
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging:LogSuccessfulConnections 1
-#Section 18
+#L1Section18
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization:NoLockScreenCamera 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization:NoLockScreenSlideshow 1
 HKLM\SOFTWARE\Policies\Microsoft\InputPersonalization:AllowInputPersonalization 1
@@ -261,7 +260,7 @@ HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate:DeferFeatureUpdates 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate:DeferFeatureUpdatesPeriodInDays X>=180 #set to 180
 HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate:DeferQualityUpdates 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate:DeferQualityUpdatesPeriodInDays 0
-#Section 19
+#L1Section19
 HKU\[USER SID]\Software\Policies\Microsoft\Windows\CurrentVersion\PushNotifications:NoToastApplicationNotificationOnLockScreen 1
 HKU\[USER SID]\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments:SaveZoneInformation 2
 HKU\[USER SID]\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments:ScanWithAntiVirus 3
@@ -270,14 +269,10 @@ HKU\[USER SID]\Software\Policies\Microsoft\Windows\CloudContent:DisableThirdPart
 HKU\[USER SID]\SOFTWARE\Policies\Microsoft\Windows\CloudContent:DisableSpotlightCollectionOnDesktop 1
 HKU\[USER SID]\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer:NoInplaceSharing 1
 HKU\[USER SID]\Software\Policies\Microsoft\Windows\Installer:AlwaysInstallElevated 0
-
-
-
-####L2####
-#Section 2
+#L2Section2
 HKLM\SYSTEM\CurrentControlSet\Control\Print\Providers\LanMan Print Services\Servers:AddPrinterDrivers 1
 HKLM\SOFTWARE\Policies\Microsoft\Cryptography:ForceKeyProtection 1
-#Section 5
+#L2Section5
 HKLM\SYSTEM\CurrentControlSet\Services\BTAGService:Start 4
 HKLM\SYSTEM\CurrentControlSet\Services\bthserv:Start 4
 HKLM\SYSTEM\CurrentControlSet\Services\MapsBroker:Start 4
@@ -302,7 +297,7 @@ HKLM\SYSTEM\CurrentControlSet\Services\Wecsvc:Start 4
 HKLM\SYSTEM\CurrentControlSet\Services\WpnService:Start 4
 HKLM\SYSTEM\CurrentControlSet\Services\PushToInstall:Start 4
 HKLM\SYSTEM\CurrentControlSet\Services\WinRM:Start 4
-#Section 18
+#L2Section18
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer:AllowOnlineTips 0
 HKLM\SYSTEM\CurrentControlSet\Services\RasMan\Parameters:DisableSavePassword 1
 HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters:KeepAliveTime 300000
@@ -379,16 +374,13 @@ HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging:EnableScr
 HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription:EnableTranscripting 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service:AllowAutoConfig 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service\WinRS:AllowRemoteShellAccess 0
-#Section 19
+#L2Section19
 HKU\[USER SID]\Software\Policies\Microsoft\Assistance\Client\1.0:NoImplicitFeedback 1
 HKU\[USER SID]\Software\Policies\Microsoft\Windows\CloudContent:DisableTailoredExperiencesWithDiagnosticData 1
 HKU\[USER SID]\Software\Policies\Microsoft\Windows\CloudContent:DisableWindowsSpotlightFeatures 1
 HKU\[USER SID]\Software\Policies\Microsoft\WindowsMediaPlayer:PreventCodecDownload 1
-
-####Bitlocker####
-#Section 2
+#BitlockerSection
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:MaxDevicePasswordFailedAttempts 10<x>0 #set to 10
-#Section 18
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions:DenyDeviceIDs 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions\DenyDeviceIDs:1 "PCI\CC_0C0A"
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions:DenyDeviceIDsRetroactive 1
@@ -444,8 +436,7 @@ HKLM\SOFTWARE\Policies\Microsoft\FVE:RDVEnforceUserCert 1
 HKLM\SYSTEM\CurrentControlSet\Policies\Microsoft\FVE:RDVDenyWriteAccess 1
 HKLM\SOFTWARE\Policies\Microsoft\FVE:RDVDenyCrossOrg 0
 HKLM\SOFTWARE\Policies\Microsoft\FVE:DisableExternalDMAUnderLock 1
-###NG###
-#Section 18
+#SectionNG
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard:EnableVirtualizationBasedSecurity 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard:RequirePlatformSecurityFeatures 1 or 3 # set to 3
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard:HypervisorEnforcedCodeIntegrity 1

@@ -23,7 +23,7 @@ $L1Section2 = @{
     )
     'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' = @(
         @{ 'key' = 'PasswordExpiryWarning'; 'range' = 'exact'; 'value' = 5,6,7,8,9,10,11,12,13,14 },
-        @{ 'key' = 'ScRemoveOption'; 'type' = 'exact'; 'value' = 1,2,3 }
+        @{ 'key' = 'ScRemoveOption'; 'type' = 'range'; 'value' = 1,2,3 }
     )
     'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters' = @(
         @{ 'key' = 'SupportedEncryptionTypes'; 'type' = 'exact'; 'value' = 2147483640 }
@@ -38,16 +38,12 @@ $L1Section2 = @{
         @{ 'key' = 'RestrictAnonymous'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'DisableDomainCreds'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'UseMachineId'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'EveryoneIncludesAnonymous'; 'type' = 'exact'; 'value' = 0 },
+        @{ 'key' = 'EveryoneIncludesAnonymous'; 'type' = 'exact'; 'value' = 0 }, 
         @{ 'key' = 'restrictremotesam'; 'type' = 'exact'; 'value' = "O:BAG:BAD:(A;;RC;;;BA)" },
-        @{ 'key' = 'RestrictAnonymousSAM'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'AuditReceivingNTLMTraffic'; 'type' = 'exact'; 'value' = 2 }
+        @{ 'key' = 'RestrictAnonymousSAM'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedPaths' = @(
-        @{ 'key' = 'Machine'; 'type' = 'exact'; 'value' = "System\CurrentControlSet\Control\Print\Printers, System\CurrentControlSet\Services\Eventlog, Software\Microsoft\OLAP Server, Software\Microsoft
-\Windows NT\CurrentVersion\Print, Software\Microsoft\Windows NT\CurrentVersion\Windows, System\CurrentControlSet\Control\ContentIndex, System\CurrentControlSet\Control\Terminal Server, System\CurrentCon
-trolSet\Control\Terminal Server\UserConfig, System\CurrentControlSet\Control\Terminal Server\DefaultUserConfiguration, Software\Microsoft\Windows NT\CurrentVersion\Perflib, System\CurrentControlSet\Serv
-ices\SysmonLog" }
+        @{ 'key' = 'Machine'; 'type' = 'exact'; 'value' = "System\CurrentControlSet\Control\Print\Printers System\CurrentControlSet\Services\Eventlog SOFTWARE\Microsoft\OLAP Server SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows System\CurrentControlSet\Control\ContentIndex System\CurrentControlSet\Control\Terminal Server System\CurrentControlSet\Control\Terminal Server\UserConfig System\CurrentControlSet\Control\Terminal Server\DefaultUserConfiguration SOFTWARE\Microsoft\Windows NT\CurrentVersion\Perflib System\CurrentControlSet\Services\SysmonLog" }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters' = @(
         @{ 'key' = 'EnablePlainTextPassword'; 'type' = 'exact'; 'value' = 0 },
@@ -55,17 +51,17 @@ ices\SysmonLog" }
         @{ 'key' = 'RequireSecuritySignature'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedExactPaths' = @(
-        @{ 'key' = 'Machine'; 'type' = 'exact'; 'value' = "System\CurrentControlSet\Control\ProductOptions, System\CurrentControlSet\Control\Server Applications, Software\Microsoft\Windows NT\CurrentVer
-sion" }
+        @{ 'key' = 'Machine'; 'type' = 'exact'; 'value' = "System\CurrentControlSet\Control\ProductOptions System\CurrentControlSet\Control\Server Applications Software\Microsoft\Windows NT\CurrentVersion" }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0' = @(
         @{ 'key' = 'AllowNullSessionFallback'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'NTLMMinServerSec'; 'type' = 'exact'; 'value' = 537395200 },
         @{ 'key' = 'NTLMMinClientSec'; 'type' = 'exact'; 'value' = 537395200 },
         @{ 'key' = 'RestrictSendingNTLMTraffic'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'auditreceivingntlmtraffic'; 'type' = 'exact'; 'value' = 2 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\LDAP' = @(
-        @{ 'key' = 'LDAPClientIntegrity'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'LDAPClientIntegrity'; 'type' = 'range'; 'value' = 1,2 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager' = @(
         @{ 'key' = 'ProtectionMode'; 'type' = 'exact'; 'value' = 1 }
@@ -192,7 +188,7 @@ $L1Section18 = @{
         @{ 'key' = 'EnumerateAdministrators'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters' = @(
-        @{ 'key' = 'DisableIPSourceRouting'; 'type' = 'exact'; 'value' = 0 }
+        @{ 'key' = 'DisableIPSourceRouting'; 'type' = 'exact'; 'value' = 2 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager' = @(
         @{ 'key' = 'SafeDllSearchMode'; 'type' = 'exact'; 'value' = 1 }
@@ -209,7 +205,7 @@ $L1Section18 = @{
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\System' = @(
         @{ 'key' = 'Retention'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'MaxSize'; 'type' = 'exact'; 'value' = "x -gt 32768" }
+        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -gt 32768" }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\mrxsmb10' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
@@ -218,7 +214,7 @@ $L1Section18 = @{
         @{ 'key' = 'AllowBuildPreview'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' = @(
-        @{ 'key' = 'ScreenSaverGracePeriod'; 'type' = 'comparison'; 'value' = "x -lt 5" },
+        @{ 'key' = 'ScreenSaverGracePeriod'; 'type' = 'comparison'; 'value' = "x -le 5" },
         @{ 'key' = 'AutoAdminLogon'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\OneDrive' = @(
@@ -270,7 +266,7 @@ $L1Section18 = @{
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application' = @(
         @{ 'key' = 'Retention'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'MaxSize'; 'type' = 'exact'; 'value' = "x -gt 32768" }
+        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -gt 32768" }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization' = @(
         @{ 'key' = 'NoLockScreenCamera'; 'type' = 'exact'; 'value' = 1 },
@@ -370,7 +366,7 @@ $L1Section18 = @{
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup' = @(
         @{ 'key' = 'Retention'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'MaxSize'; 'type' = 'exact'; 'value' = "x -gt 32768" }
+        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -gt 32768" }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\WcmSvc\GroupPolicy' = @(
         @{ 'key' = 'fMinimizeConnections'; 'type' = 'exact'; 'value' = 3 }
@@ -441,7 +437,7 @@ $L1Section18 = @{
         @{ 'key' = 'AllowEncryptionOracle'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\Eventlog\Security' = @(
-        @{ 'key' = 'WarningLevel'; 'type' = 'comparison'; 'value' = "x -lt 90" }
+        @{ 'key' = 'WarningLevel'; 'type' = 'comparison'; 'value' = "x -le 90" }
     )
     'HKLM\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config' = @(
         @{ 'key' = 'AutoConnectAllowedOEM'; 'type' = 'exact'; 'value' = 0 }
@@ -465,7 +461,7 @@ $L1Section18 = @{
         @{ 'key' = 'DontDisplayNetworkSelectionUI'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'BlockUserFromShowingAccountDetailsOnSignin'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'AllowDomainPINLogon'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'ShellSmartScreenLevel'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'ShellSmartScreenLevel'; 'type' = 'exact'; 'value' = "Block" }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\kernel' = @(
         @{ 'key' = 'DisableExceptionChainValidation'; 'type' = 'exact'; 'value' = 0 }
@@ -690,7 +686,7 @@ $L2Section18 = @{
         @{ 'key' = 'fDisableWebAuthn'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'MaxDisconnectionTime'; 'type' = 'exact'; 'value' = 60000 },
         @{ 'key' = 'fDisablePNPRedir'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'MaxIdleTime'; 'type' = 'comparison'; 'value' = "x -lt 900000 -and x -gt 0" },
+        @{ 'key' = 'MaxIdleTime'; 'type' = 'comparison'; 'value' = "x -le 900000 -and x -gt 0" },
         @{ 'key' = 'fDenyTSConnections'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'fDisableLocationRedir'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'EnableUiaRedirection'; 'type' = 'exact'; 'value' = 0 }
@@ -1180,7 +1176,7 @@ $expectedAuditPolicies = @{
 "Logon" = "Success and Failure"
 "Other Logon/Logoff Events" = "Success and Failure"
 "Special Logon" = "Success"
-"Detailed File Share" = "Success"
+"Detailed File Share" = "Failure"
 "File Share" = "Success and Failure"
 "Other Object Access Events" = "Success and Failure"
 "Removable Storage" = "Success and Failure"
@@ -1229,65 +1225,62 @@ function Compare-RegistryKeys {
         [Parameter(Mandatory = $true)]
         [hashtable]$RegistryConfig
     )
-
     $errorCount = 0
+    $currentUserSID = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
 
     foreach ($path in $RegistryConfig.Keys) {
-        $regPath = $path -replace '^HKLM\\', 'HKLM:\'
-        $keyInfoArray = $RegistryConfig[$path]
-
-        if (Test-Path $regPath) {
-            foreach ($keyInfo in $keyInfoArray) {
-                try {
-                    $currentValue = Get-ItemProperty -Path $regPath -Name $keyInfo.key -ErrorAction Stop | Select-Object -ExpandProperty $keyInfo.key
-
-                    switch ($keyInfo.type) {
-                        'exact' {
-                            if ($currentValue -ne $keyInfo.value) {
-                                Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                                Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                                Write-Host "  Current Value: $currentValue" -ForegroundColor Red
-                                Write-Host "  Expected Value: $($keyInfo.value)" -ForegroundColor Red
-                                $errorCount++
-                            }
+        $originalPath = $path
+        if ($path -match '^HKU\\'){
+            $regPath = $path -replace '\[USER SID\]', $currentUserSID
+            $regPath = $regpath -replace '^HKU\\', 'Registry::HKEY_USERS\'
+        }
+        Else{
+            $regPath = $path -replace '^HKLM\\', 'HKLM:\'
+        }
+        $keyInfoArray = $RegistryConfig[$originalPath]
+        
+        foreach ($keyInfo in $keyInfoArray) {
+            try {
+                $currentValue = Get-ItemProperty -Path $regPath -Name $keyInfo.key -ErrorAction Stop | 
+                                    Select-Object -ExpandProperty $keyInfo.key
+                switch ($keyInfo.type) {
+                    'exact' {
+                        if ($currentValue -ne $keyInfo.value) {
+                            Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
+                            Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
+                            Write-Host "  Current Value: $currentValue" -ForegroundColor Red
+                            Write-Host "  Expected Value: $($keyInfo.value)" -ForegroundColor Red
+                            $errorCount++
                         }
-                        'range' {
-                            $acceptedValues = $keyInfo.value -split ','
-                            if ($currentValue -notin $acceptedValues) {
-                                Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                                Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                                Write-Host "  Current Value: $currentValue" -ForegroundColor Red
-                                Write-Host "  Expected Values: $($keyInfo.value)" -ForegroundColor Red
-                                $errorCount++
-                            }
+                    }
+                    'range' {
+                        $acceptedValues = $keyInfo.value -split ','
+                        if ($currentValue -notin $acceptedValues) {
+                            Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
+                            Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
+                            Write-Host "  Current Value: $currentValue" -ForegroundColor Red
+                            Write-Host "  Expected Values: $($keyInfo.value)" -ForegroundColor Red
+                            $errorCount++
                         }
-                        'comparison' {
-                            $comparisonString = $keyInfo.value -replace 'x', $currentValue
-                            if (!(Invoke-Expression $comparisonString)) {
-                                Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                                Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                                Write-Host "  Current Value: $currentValue" -ForegroundColor Red
-                                Write-Host "  Expected Condition: $($keyInfo.value)" -ForegroundColor Red
-                                $errorCount++
-                            }
+                    }
+                    'comparison' {
+                        $comparisonString = $keyInfo.value -replace 'x', $currentValue
+                        if (!(Invoke-Expression $comparisonString)) {
+                            Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
+                            Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
+                            Write-Host "  Current Value: $currentValue" -ForegroundColor Red
+                            Write-Host "  Expected Condition: $($keyInfo.value)" -ForegroundColor Red
+                            $errorCount++
                         }
                     }
                 }
-                catch {
-                    Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                    Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                    Write-Host "  Current Value: <Not Found>" -ForegroundColor Red
-                    Write-Host "  Expected Value: $($keyInfo.value)" -ForegroundColor Red
-                    $errorCount++
-                }
+            }
+            catch {
+                Write-Host "Registry path does not exist: $regPath\$($keyInfo.key)" -ForegroundColor Yellow
+                $errorCount++
             }
         }
-        else {
-            Write-Host "Registry path does not exist: $regPath" -ForegroundColor Yellow
-            $errorCount++
-        }
     }
-
     return $errorCount
 }
 #
