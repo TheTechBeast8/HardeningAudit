@@ -43,7 +43,7 @@ $L1Section2 = @{
         @{ 'key' = 'RestrictAnonymousSAM'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedPaths' = @(
-        @{ 'key' = 'Machine'; 'type' = 'exact'; 'value' = "System\CurrentControlSet\Control\Print\Printers System\CurrentControlSet\Services\Eventlog SOFTWARE\Microsoft\OLAP Server SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows System\CurrentControlSet\Control\ContentIndex System\CurrentControlSet\Control\Terminal Server System\CurrentControlSet\Control\Terminal Server\UserConfig System\CurrentControlSet\Control\Terminal Server\DefaultUserConfiguration SOFTWARE\Microsoft\Windows NT\CurrentVersion\Perflib System\CurrentControlSet\Services\SysmonLog" }
+        @{ 'key' = 'Machine'; 'type' = 'text'; 'value' = "System\CurrentControlSet\Control\Print\Printers System\CurrentControlSet\Services\Eventlog SOFTWARE\Microsoft\OLAP Server SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows System\CurrentControlSet\Control\ContentIndex System\CurrentControlSet\Control\Terminal Server System\CurrentControlSet\Control\Terminal Server\UserConfig System\CurrentControlSet\Control\Terminal Server\DefaultUserConfiguration SOFTWARE\Microsoft\Windows NT\CurrentVersion\Perflib System\CurrentControlSet\Services\SysmonLog" }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters' = @(
         @{ 'key' = 'EnablePlainTextPassword'; 'type' = 'exact'; 'value' = 0 },
@@ -51,7 +51,7 @@ $L1Section2 = @{
         @{ 'key' = 'RequireSecuritySignature'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedExactPaths' = @(
-        @{ 'key' = 'Machine'; 'type' = 'exact'; 'value' = "System\CurrentControlSet\Control\ProductOptions System\CurrentControlSet\Control\Server Applications Software\Microsoft\Windows NT\CurrentVersion" }
+        @{ 'key' = 'Machine'; 'type' = 'text'; 'value' = "System\CurrentControlSet\Control\ProductOptions System\CurrentControlSet\Control\Server Applications Software\Microsoft\Windows NT\CurrentVersion" }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0' = @(
         @{ 'key' = 'AllowNullSessionFallback'; 'type' = 'exact'; 'value' = 0 },
@@ -67,13 +67,13 @@ $L1Section2 = @{
         @{ 'key' = 'ProtectionMode'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' = @(
-        @{ 'key' = 'LegalNoticeText'; 'type' = 'exact'; 'value' = "Sample Text" },
+        @{ 'key' = 'LegalNoticeText'; 'type' = 'exact'; 'value' = "*" },
         @{ 'key' = 'NoConnectedUser'; 'type' = 'exact'; 'value' = 3 },
         @{ 'key' = 'DisableCAD'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'ConsentPromptBehaviorUser'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'EnableSecureUIAPaths'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'EnableInstallerDetection'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'LegalNoticeCaption'; 'type' = 'exact'; 'value' = "Sample Text" },
+        @{ 'key' = 'LegalNoticeCaption'; 'type' = 'exact'; 'value' = "*" },
         @{ 'key' = 'ConsentPromptBehaviorAdmin'; 'type' = 'range'; 'value' = 1,2 },
         @{ 'key' = 'DontDisplayLastUserName'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'EnableLUA'; 'type' = 'exact'; 'value' = 1 },
@@ -1225,25 +1225,42 @@ function Compare-RegistryKeys {
         [Parameter(Mandatory = $true)]
         [hashtable]$RegistryConfig
     )
+    #initialzie error count
     $errorCount = 0
+    #collect current user SID for use in User specific keys
     $currentUserSID = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
-
+    #loop through each  hive path in each hashtable
     foreach ($path in $RegistryConfig.Keys) {
+        #keep the original path
         $originalPath = $path
+        #if it is a user key replace some variables with the proper info
         if ($path -match '^HKU\\'){
             $regPath = $path -replace '\[USER SID\]', $currentUserSID
+            #also modify to specifically look at the registry 
             $regPath = $regpath -replace '^HKU\\', 'Registry::HKEY_USERS\'
         }
         Else{
+            #if its a local machine key rewrite it to make sure they are all formated the same
             $regPath = $path -replace '^HKLM\\', 'HKLM:\'
         }
+        #this is now peaking into the sub array under each hive path
         $keyInfoArray = $RegistryConfig[$originalPath]
-        
+        #loop through each registry value under each path
         foreach ($keyInfo in $keyInfoArray) {
+            #have a try statement since some times it can fail to complete 
             try {
+                #collect the current value if the path doesnt exist then error action stop to immediatly drop to the catch 
                 $currentValue = Get-ItemProperty -Path $regPath -Name $keyInfo.key -ErrorAction Stop | 
                                     Select-Object -ExpandProperty $keyInfo.key
+                #Legal notice title and body can be any text the company sees fit not a defined value
+                #checks to make sure its not empty
+                if ($keyInfo.value -eq '*' -or $keyInfo.value -eq 'any') {
+                    # Skip comparison if any value is fine
+                    continue
+                }
+                #looks at they type field in all the defind hashtables and performs a specific type of comparison
                 switch ($keyInfo.type) {
+                    #if the type is exact it does a normal 1=1 comparison
                     'exact' {
                         if ($currentValue -ne $keyInfo.value) {
                             Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
@@ -1253,6 +1270,7 @@ function Compare-RegistryKeys {
                             $errorCount++
                         }
                     }
+                    #if the type is range it accepts a range of values and splits them all and checks them 1 in 1,2,3 is a pass 0 in 1,2,3 is a fail
                     'range' {
                         $acceptedValues = $keyInfo.value -split ','
                         if ($currentValue -notin $acceptedValues) {
@@ -1263,6 +1281,8 @@ function Compare-RegistryKeys {
                             $errorCount++
                         }
                     }
+                    #if the type is comparison it does a exact lookup on the text i provided in the value where it replaces x with the current value 
+                    #example x -gt 5 where x is 1 would fail since -gt is greater than
                     'comparison' {
                         $comparisonString = $keyInfo.value -replace 'x', $currentValue
                         if (!(Invoke-Expression $comparisonString)) {
@@ -1273,9 +1293,24 @@ function Compare-RegistryKeys {
                             $errorCount++
                         }
                     }
+                    #if the type is text the it does a conversion of the current value to a string then compares them. 
+                    'text' {
+                    $ExpectedValue = $keyInfo.value
+                    [string]$currentValueString = $currentValue
+                    if ($currentValueString -ne $ExpectedValue) {
+                        Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
+                        Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
+                        Write-Host "  Current Value: $currentValueString" -ForegroundColor Red
+                        Write-Host "  Expected Value: $($keyInfo.value)" -ForegroundColor Red
+                        $errorCount++
+                      }
+                    }
                 }
             }
             catch {
+                #the catch for all the errors in the current value lookup land here 
+                #if the type is not noexistOK then it increments the error count
+                #if it is noexistOK then nothing happnes as its fine it doesnt exist 
                 If ($keyInfo.type -ne "noexistOK"){
                     Write-Host "Registry path does not exist: $regPath\$($keyInfo.key)" -ForegroundColor Yellow
                     $errorCount++
@@ -1290,12 +1325,13 @@ function Compare-RegistryKeys {
 #
 #
 #
+#Code that acutally does stuff all above code are just definitions and functions
 #
-#run the Parse-secedit function
+#run the Format-Secedit function
 $secedit = Format-Secedit -seceditPath $seceditPath
-#run the Parse-UserRights function
+#run the Format-UserRights function
 $UserRights = Format-UserRights -secedit $secedit
-# Compare rights and get error count
+# Compare rights and get error count for each section
 $UserRightsErrors = Compare-UserRights -currentRights $UserRights
 $SecAccErrors = Compare-Sec-Acc-Policies -secedit $secedit
 $AuditPolicyErrors = Compare-Audit-Policies
@@ -1311,12 +1347,14 @@ $L2Section18Errors = Compare-RegistryKeys -RegistryConfig $L2Section18
 $L2Section19Errors = Compare-RegistryKeys -RegistryConfig $L2Section19
 $SectionBitlockerErrors = Compare-RegistryKeys -RegistryConfig $SectionBitlocker
 $SectionNGErrors = Compare-RegistryKeys -RegistryConfig $SectionNG
+#compile the error counts into an array
 $ErrorsArray = @(
     $UserRightsErrors, $SecAccErrors, $AuditPolicyErrors, $L1Section1Errors, 
     $L1Section2Errors, $L1Section5Errors, $L1Section9Errors, $L1Section18Errors,
     $L1Section19Errors, $L2Section2Errors, $L2Section5Errors, $L2Section18Errors,
     $L2Section19Errors, $SectionBitlockerErrors, $SectionNGErrors
 )
+#create a total possible controls array
 $PossibleAnswers = @{
     UserRights = 39
     SecAcc = 15
@@ -1334,7 +1372,7 @@ $PossibleAnswers = @{
     SectionBitlocker = 55
     SectionNG = 13
 }
-# Function to calculate the percentage for each section
+#Quick Function to calculate the percentage for each section
 function GetPercentage {
     param (
         [int]$Errors,
@@ -1342,6 +1380,7 @@ function GetPercentage {
     )
     return [math]::Round((($Total - $Errors) / $Total) * 100, 2)
 }
+#collect all the percentages 
 $Percentages = @{
     UserRights = GetPercentage $UserRightsErrors $PossibleAnswers.UserRights
     SecAcc = GetPercentage $SecAccErrors $PossibleAnswers.SecAcc
