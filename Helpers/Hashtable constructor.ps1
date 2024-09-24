@@ -1,99 +1,79 @@
-# Function to get a valid file path from the user
-function Get-ValidFilePath {
-    do {
-        $filePath = Read-Host "Enter the full path to your 'All Registry Keys.txt' file"
-        if (-not (Test-Path $filePath)) {
-            Write-Host "File not found. Please enter a valid file path." -ForegroundColor Red
+$inputFilePath = "C:\TOA\All Registry Keys.txt"
+function Convert-TextToHashtable {
+    param (
+        [string[]]$Lines
+    )
+
+    $result = @{}
+    $currentSection = $null
+
+    foreach ($line in $Lines) {
+        $line = $line.Trim()
+        if (-not $line) { continue }
+
+        if ($line.StartsWith('#') -and -not $line.StartsWith('##')) {
+            $currentSection = $line.Substring(1)
+            $result[$currentSection] = @{}
         }
-    } while (-not (Test-Path $filePath))
-    return $filePath
-}
-
-# Try to read the input file, prompt for a new path if it fails
-try {
-    $filePath = "C:\TOA\All Registry Keys.txt"  # Update this path as needed
-    $content = Get-Content -Path $filePath -Raw -ErrorAction Stop
-}
-catch {
-    Write-Host "Error: Unable to read file at $filePath" -ForegroundColor Red
-    Write-Host "Let's try a different path." -ForegroundColor Yellow
-    $filePath = Get-ValidFilePath
-    $content = Get-Content -Path $filePath -Raw
-}
-
-# Split the content into sections
-$sections = $content -split '(?m)^####.*####\s*$'
-
-# Remove any empty sections
-$sections = $sections | Where-Object { $_ -match '\S' }
-
-# Initialize an empty array to store the hashtable strings
-$hashtables = @()
-
-foreach ($section in $sections) {
-    $lines = $section -split "`n" | Where-Object { $_ -match '\S' }
-    $sectionName = ($lines[0] -replace '^#', '').Trim()
-    $hashtableName = "$" + $sectionName.Replace(" ", "")
-    
-    $hashtable = "@{`n"
-    $currentPath = ""
-    
-    foreach ($line in $lines[1..$lines.Count]) {
-        if ($line -match '^#') { continue }
-        
-        if ($line -match '^([^:]+):(.+)') {
-            $regPath = $matches[1].Trim()
-            $keyValue = $matches[2].Trim()
+        elseif (-not $line.StartsWith('##') -and $currentSection) {
+            $line = $line -replace '##.*$', ''  # Remove comments
             
-            # Split the key and value, but be careful with complex values
-            $key = $keyValue -replace '^([^\s]+)\s+(.+)$', '$1'
-            $value = $keyValue -replace '^([^\s]+)\s+(.+)$', '$2'
-            
-            if ($regPath -ne $currentPath) {
-                if ($currentPath -ne "") {
-                    $hashtable += "    }`n"
+            if ($line -match '^([^:]+):(.+?)\s+(.+)$') {
+                $hivePath = $matches[1]
+                $keyName = $matches[2]
+                $value = $matches[3].Trim('"')  # Remove quotes if present
+
+                if (-not $result[$currentSection].ContainsKey($hivePath)) {
+                    $result[$currentSection][$hivePath] = @{}
                 }
-                $currentPath = $regPath
-                $hashtable += "    `"$regPath`" = @{`n"
+
+                # Convert to integer if possible
+                if ($value -match '^\d+$') {
+                    $value = [int]$value
+                }
+
+                $result[$currentSection][$hivePath][$keyName] = $value
             }
-            
-            # Handle special cases for the value
-            if ($value -match '^(\d+)<x>') {
-                $value = $matches[1]
-            } elseif ($value -match '^\d+$') {
-                # It's a number, don't add quotes
-            } elseif ($value -eq '') {
-                $value = '""'  # Empty string
-            } elseif ($value -match '^{.*}$') {
-                # It's already a complex value (like GUIDs), don't add extra quotes
-                $value = "`"$value`""
-            } else {
-                # For other string values, ensure proper quoting
-                $value = $value -replace '"', '`"'  # Escape any existing double quotes
-                $value = "`"$value`""
-            }
-            
-            $hashtable += "        `"$key`" = $value`n"
         }
     }
-    
-    if ($currentPath -ne "") {
-        $hashtable += "    }`n"
+
+    return $result
+}
+
+function Format-HashtableOutput {
+    param (
+        [hashtable]$Data
+    )
+
+    $output = @()
+
+    foreach ($section in $Data.Keys) {
+        $output += "`$$section = @{"
+        foreach ($hivePath in $Data[$section].Keys) {
+            $output += "    `"$hivePath`" = @{"
+            foreach ($key in $Data[$section][$hivePath].Keys) {
+                $value = $Data[$section][$hivePath][$key]
+                if ($value -is [string]) {
+                    $output += "        `"$key`" = `"$value`""
+                } else {
+                    $output += "        `"$key`" = $value"
+                }
+            }
+            $output += "    }"
+        }
+        $output += "}"
     }
-    
-    $hashtable += "}"
-    
-    $hashtables += "$hashtableName = $hashtable`n"
+
+    return $output -join "`n"
 }
 
-# Output the hashtables
-$output = $hashtables -join "`n"
-Write-Output $output
-
-# Ask user if they want to save the output to a file
-$saveToFile = Read-Host "Do you want to save the output to a file? (Y/N)"
-if ($saveToFile -eq 'Y' -or $saveToFile -eq 'y') {
-    $outputPath = Read-Host "Enter the full path for the output file (e.g., C:\Output\output.ps1)"
-    $output | Out-File -FilePath $outputPath
-    Write-Host "Output saved to $outputPath" -ForegroundColor Green
+# Main script logic
+if (-not (Test-Path $InputFilePath)) {
+    Write-Error "Input file not found: $InputFilePath"
+    exit 1
 }
+
+$inputLines = Get-Content -Path $InputFilePath
+$parsedData = Convert-TextToHashtable -Lines $inputLines
+$formattedOutput = Format-HashtableOutput -Data $parsedData
+Write-Output $formattedOutput

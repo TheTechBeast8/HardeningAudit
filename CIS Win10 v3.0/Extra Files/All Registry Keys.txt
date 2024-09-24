@@ -7,15 +7,15 @@ HKLM\SYSTEM\CurrentControlSet\Control\Lsa:SCENoApplyLegacyAuditPolicy 1
 HKLM\SYSTEM\CurrentControlSet\Control\Lsa:CrashOnAuditFail 0
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:DisableCAD 0
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:DontDisplayLastUserName 1
-HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:InactivityTimeoutSecs 900<x>0 #set to 900
+HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:InactivityTimeoutSecs 900##900<x>0 
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:LegalNoticeText "Sample Text"
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:LegalNoticeCaption "Sample Text"
-HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon:PasswordExpiryWarning 5-14 #set to 14
-HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon:ScRemoveOption "1,2,3" #set to 1
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon:PasswordExpiryWarning 14##set to 5-14
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon:ScRemoveOption 1##set to "1,2,3" 
 HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters:RequireSecuritySignature 1
 HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters:EnableSecuritySignature 1
 HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters:EnablePlainTextPassword 0
-HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters:AutoDisconnect x<=15 #set to 15
+HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters:AutoDisconnect 15##x<=15 
 HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters:RequireSecuritySignature 1
 HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters:EnableSecuritySignature 1
 HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters:enableforcedlogoff 1
@@ -45,7 +45,7 @@ HKLM\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0:RestrictSendingNTLMTraffic 1
 HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Kernel:ObCaseInsensitive 1
 HKLM\SYSTEM\CurrentControlSet\Control\Session Manager:ProtectionMode 1
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:FilterAdministratorToken 1
-HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:ConsentPromptBehaviorAdmin 1 or 2 #set to 1
+HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:ConsentPromptBehaviorAdmin 1##set to 1 or 2
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:ConsentPromptBehaviorUser 0
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:EnableInstallerDetection 1
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:EnableSecureUIAPaths 1
@@ -79,7 +79,7 @@ HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile:EnableFirewall 1
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile:DefaultInboundAction 1
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile:DisableNotifications 1
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile\Logging:LogFilePath "%SystemRoot%\System32\logfiles\firewall\privatefw.log"
-HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile\Logging:LogFileSize x>16384 #set to 40000
+HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile\Logging:LogFileSize 40000##x>16384
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile\Logging:LogDroppedPackets 1
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile\Logging:LogSuccessfulConnections 1
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile:EnableFirewall 1
@@ -88,7 +88,7 @@ HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile:DisableNotificati
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile:AllowLocalPolicyMerge 0
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile:AllowLocalIPsecPolicyMerge 0
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging:LogFilePath "%SystemRoot%\System32\logfiles\firewall\publicfw.log"
-HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging:LogFileSize x>16384 #set to 40000
+HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging:LogFileSize 40000##x>16384
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging:LogDroppedPackets 1
 HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging:LogSuccessfulConnections 1
 #L1Section18
@@ -108,8 +108,8 @@ HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters:DisableIPSourceRouting 2
 HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters:EnableICMPRedirect 0
 HKLM\SYSTEM\CurrentControlSet\Services\NetBT\Parameters:NoNameReleaseOnDemand 1
 HKLM\SYSTEM\CurrentControlSet\Control\Session Manager:SafeDllSearchMode 1
-HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon:ScreenSaverGracePeriod X<5 #set to 5
-HKLM\SYSTEM\CurrentControlSet\Services\Eventlog\Security:WarningLevel x<90 # set to 90
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon:ScreenSaverGracePeriod 5##X<5
+HKLM\SYSTEM\CurrentControlSet\Services\Eventlog\Security:WarningLevel 90##set to x<90
 HKLM\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation:AllowInsecureGuestAuth 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Network Connections:NC_AllowNetBridge_NLA 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Network Connections:NC_ShowSharedAccessUI 0 
@@ -161,30 +161,30 @@ HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer:NoDriveTypeAuto
 HKLM\SOFTWARE\Policies\Microsoft\Biometrics\FacialFeatures:EnhancedAntiSpoofing 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent:DisableConsumerAccountStateContent 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent:DisableWindowsConsumerFeatures 1
-HKLM\SOFTWARE\Policies\Microsoft\Windows\Connect:RequirePinForPairing 1 or 2 # set to 1
+HKLM\SOFTWARE\Policies\Microsoft\Windows\Connect:RequirePinForPairing 1##set to 1 or 2
 HKLM\SOFTWARE\Policies\Microsoft\Windows\CredUI:DisablePasswordReveal 1
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\CredUI:EnumerateAdministrators 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\System:NoLocalPasswordResetQuestions 1
-HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection:AllowTelemetry 0 or 1 #set to 1
+HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection:AllowTelemetry 1##set to 0 or 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection:DisableOneSettingsDownloads 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection:DoNotShowFeedbackNotifications 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection:EnableOneSettingsAuditing 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection:LimitDiagnosticLogCollection 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection:LimitDumpCollection 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\PreviewBuilds:AllowBuildPreview 0
-HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization:DODownloadMode 0,1,2,99,100 #set to 1
+HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization:DODownloadMode 1##set to 0,1,2,99,100 
 HKLM\SOFTWARE\Policies\Microsoft\Windows\AppInstaller:EnableAppInstaller 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\AppInstaller:EnableExperimentalFeatures 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\AppInstaller:EnableHashOverride 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\AppInstaller:EnableMSAppInstallerProtocol 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application:Retention "0"
-HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application:MaxSize x>32768 #set to 500000
+HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application:MaxSize 500000##set to x>32768
 HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security:Retention "0"
-HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security:MaxSize x>196608 #set to 500000
+HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security:MaxSize 500000##set to x>196608
 HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup:Retention "0"
-HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup:MaxSize x>32768 #set to 500000
+HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup:MaxSize 500000##set to x>32768
 HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\System:Retention "0"
-HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\System:MaxSize x>32768 #set to 500000
+HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\System:MaxSize 500000##set to x>32768
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer:NoDataExecutionPrevention 0 
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer:NoHeapTerminationOnCorruption 0
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer:PreXPSP2ShellProtocolBehavior 0
@@ -237,7 +237,7 @@ HKLM\SOFTWARE\Policies\Microsoft\Dsh:AllowNewsAndInterests 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\System:EnableSmartScreen 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\System:ShellSmartScreenLevel 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR:AllowGameDVR 1
-HKLM\SOFTWARE\Policies\Microsoft\WindowsInkWorkspace:AllowWindowsInkWorkspace 0 or 1 #set to 0
+HKLM\SOFTWARE\Policies\Microsoft\WindowsInkWorkspace:AllowWindowsInkWorkspace 0##set to 0 or 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer:EnableUserControl 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer:AlwaysInstallElevated 0
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:EnableMPR 0 
@@ -257,7 +257,7 @@ HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU:ScheduledInstallDay 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate:SetDisablePauseUXAccess 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate:ManagePreviewBuildsPolicyValue 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate:DeferFeatureUpdates 1
-HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate:DeferFeatureUpdatesPeriodInDays X>=180 #set to 180
+HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate:DeferFeatureUpdatesPeriodInDays 180##X>=180 
 HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate:DeferQualityUpdates 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate:DeferQualityUpdatesPeriodInDays 0
 #L1Section19
@@ -361,7 +361,7 @@ HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services:fDisableLocationRe
 HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services:fDisableLPT 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services:fDisablePNPRedir 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services:fDisableWebAuthn 1
-HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services:MaxIdleTime 900000<x>0 #set to 900000
+HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services:MaxIdleTime 900000##set to 900000<x>0
 HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services:MaxDisconnectionTime 60000
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search:AllowCloudSearch 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search:EnableDynamicContentInWSB 0
@@ -380,7 +380,7 @@ HKU\[USER SID]\Software\Policies\Microsoft\Windows\CloudContent:DisableTailoredE
 HKU\[USER SID]\Software\Policies\Microsoft\Windows\CloudContent:DisableWindowsSpotlightFeatures 1
 HKU\[USER SID]\Software\Policies\Microsoft\WindowsMediaPlayer:PreventCodecDownload 1
 #BitlockerSection
-HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:MaxDevicePasswordFailedAttempts 10<x>0 #set to 10
+HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System:MaxDevicePasswordFailedAttempts 10##set to 10<x>0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions:DenyDeviceIDs 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions\DenyDeviceIDs:1 "PCI\CC_0C0A"
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions:DenyDeviceIDsRetroactive 1
@@ -396,8 +396,8 @@ HKLM\SOFTWARE\Policies\Microsoft\Power\PowerSettings\abfc2519-3608-4c2a-94ea-171
 HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVDiscoveryVolumeType ""
 HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVRecovery 1
 HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVManageDRA 1
-HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVRecoveryPassword 1 or 2 #set to 2
-HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVRecoveryKey 1 or 2 #set to 2
+HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVRecoveryPassword 2##set to 1 or 2
+HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVRecoveryKey 2##set to 1 or 2
 HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVHideRecoveryPage 1
 HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVActiveDirectoryBackup 0
 HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVActiveDirectoryInfoToStore 1
@@ -438,7 +438,7 @@ HKLM\SOFTWARE\Policies\Microsoft\FVE:RDVDenyCrossOrg 0
 HKLM\SOFTWARE\Policies\Microsoft\FVE:DisableExternalDMAUnderLock 1
 #SectionNG
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard:EnableVirtualizationBasedSecurity 1
-HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard:RequirePlatformSecurityFeatures 1 or 3 # set to 3
+HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard:RequirePlatformSecurityFeatures 3##set to 1 or 3
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard:HypervisorEnforcedCodeIntegrity 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard:HVCIMATRequired 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard:LsaCfgFlags 1
