@@ -94,16 +94,16 @@ $L1Section2 = @{
 }
 $L1Section5 = @{
     'HKLM\SYSTEM\CurrentControlSet\Services\XblGameSave' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\simptcp' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\XboxNetApiSvc' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\W3SVC' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\SSDPSRV' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
@@ -112,46 +112,46 @@ $L1Section5 = @{
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\XboxGipSvc' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\irmon' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\FTPSVC' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\sacsvr' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\sshd' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\Browser' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\RpcLocator' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\WMPNetworkSvc' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\IISADMIN' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\XblAuthManager' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\icssvc' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\WMSvc' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\LxssManager' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\RemoteAccess' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
@@ -389,7 +389,7 @@ $L1Section18 = @{
         @{ 'key' = 'ProcessCreationIncludeCmdLine_Enabled'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR' = @(
-        @{ 'key' = 'AllowGameDVR'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'AllowGameDVR'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\Print' = @(
         @{ 'key' = 'RpcAuthnLevelPrivacyEnabled'; 'type' = 'exact'; 'value' = 1 }
@@ -598,7 +598,7 @@ $L2Section5 = @{
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\SNMP' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\WinRM' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
@@ -750,7 +750,7 @@ $L2Section18 = @{
         @{ 'key' = 'NoRegistration'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet' = @(
-        @{ 'key' = 'SpynetReporting'; 'type' = 'exact'; 'value' = 0 }
+        @{ 'key' = 'SpynetReporting'; 'type' = 'noexistOK'; 'value' = 0 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors' = @(
         @{ 'key' = 'DisableLocation'; 'type' = 'exact'; 'value' = 1 }
@@ -1276,8 +1276,12 @@ function Compare-RegistryKeys {
                 }
             }
             catch {
-                Write-Host "Registry path does not exist: $regPath\$($keyInfo.key)" -ForegroundColor Yellow
-                $errorCount++
+                If ($keyInfo.type -ne "noexistOK"){
+                    Write-Host "Registry path does not exist: $regPath\$($keyInfo.key)" -ForegroundColor Yellow
+                    $errorCount++
+                }    
+
+
             }
         }
     }
