@@ -853,114 +853,74 @@ $SectionBitlocker = @{
 
 #function to create set the keys
 function Set-RegistryKeys {
-    #defining that there is a mandatory input of a hashtable for this fucntion
     param (
         [Parameter(Mandatory=$true)]
         [hashtable]$table
     )
-    #loop through the keys IE "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
     foreach ($key in $table.Keys) {
-        #catch any errors in the test path process
         try {
-        # Check if the registry key exists
-            $keyExists = Test-Path $key
+            # Convert HKLM to full path
+            $fullPath = $key -replace '^HKLM\\', 'HKLM:\\'
+            
+            if (!(Test-Path $fullPath)) {
+                New-Item -Path $fullPath -Force | Out-Null
+            }
+            $values = $table[$key]
+            foreach ($valueName in $values.Keys) {
+                $value = $values[$valueName]
+                $type = if ($value -is [int]) { "DWord" } else { "String" }
+                
+                # Use New-ItemProperty instead of Set-ItemProperty
+                if (Get-ItemProperty -Path $fullPath -Name $valueName -ErrorAction SilentlyContinue) {
+                    Set-ItemProperty -Path $fullPath -Name $valueName -Value $value
+                } else {
+                    New-ItemProperty -Path $fullPath -Name $valueName -Value $value -PropertyType $type -Force | Out-Null
+                }
+            }
         }
         catch {
-            Write-Error "Failed to check if registry key '$key' exists: $_"
-            continue
-        }
-        if (!$keyExists) {
-            try {
-                # Create the key if it doesn't exist
-                New-Item -Path $key -Force | Out-Null
-                Write-Host "Created new registry key: $key"
-            }
-            catch {
-                Write-Error "Failed to create registry key '$key': $_"
-                continue
-            }
-        }
-
-        #loop through the values in each key IE "SetDisablePauseUXAccess" = 1
-        $values = $table[$key]
-
-        foreach ($valueName in $values.Keys) {
-            try {
-                $value = $values[$valueName]
-
-                # Determine the value type
-                if ($value -is [string]) {
-                    $type = "String"
-                } else {
-                    $type = "DWord"
-                }
-
-                # Set the registry value
-                Set-ItemProperty -Path $key -Name $valueName -Value $value -Type $type
-                Write-Host "Set value '$valueName' to '$value' (Type: $type) in key: $key"
-            }
-            catch {
-                Write-Error "Failed to set value '$valueName' in key '$key'"
-            }
+            Write-Error "Failed to process key '$fullPath': $_"
         }
     }
 }
 function Set-UserRegistryKeys {
     param (
+        [Parameter(Mandatory=$true)]
         [hashtable]$Table
     )
 
-    # Get all user SIDs from HKU except system SIDs
-    try {
-        $userSIDs = Get-ChildItem -Path "HKU:\" | Where-Object {
-            $_.PSChildName -notmatch '^(S-1-5-18|S-1-5-19|S-1-5-20|\.DEFAULT)$'
-        }
+    # Get all user SIDs from HKEY_USERS except system SIDs
+    $userSIDs = Get-ChildItem -Path "Registry::HKEY_USERS" | Where-Object {
+        $_.PSChildName -notmatch '^(S-1-5-18|S-1-5-19|S-1-5-20|\.DEFAULT)$'
     }
-    catch {
-        Write-Error "Failed to retrieve user SIDs"
-        return
-    }
-    # Loop through each user SID and apply the registry settings
+
     foreach ($sid in $userSIDs) {
         foreach ($key in $Table.Keys) {
             # Replace the placeholder [USER SID] with the actual user SID
             $userKey = $key -replace '\[USER SID\]', $sid.PSChildName
-                # Check if the registry key exists
-                $keyExists = Test-Path $userKey
+            $userKey = "Registry::$userKey"  # Ensure we're using the Registry provider
 
-                # Create the key if it doesn't exist
-                if (!$keyExists) {
-                    try {
-                        New-Item -Path $userKey -Force | Out-Null
-                        Write-Host "Created new registry key: $userKey"
-                    }
-                    catch {
-                        Write-Error "Failed to create registry key '$userKey': $_"
-                        continue
-                    }
+            if (!(Test-Path $userKey)) {
+                try {
+                    New-Item -Path $userKey -Force | Out-Null
                 }
-
-                # Set the registry values
-                $values = $Table[$key]
-                foreach ($valueName in $values.Keys) {
-                    $value = $values[$valueName]
-
-                    try {
-                        # Detect if the value is DWord (integer) or String
-                        if ($value -is [int]) {
-                            $type = "DWord"
-                        } 
-                        else {
-                            $type = "String"
-                        }
-                        # Set the registry value with the determined type
-                        Set-ItemProperty -Path $userKey -Name $valueName -Value $value -Type $type
-                        Write-Host "Set value '$valueName' to '$value' (Type: $type) in key: $userKey"
-                    }
-                    catch {
-                        Write-Error "Failed to set value '$valueName' in key '$userKey': $_"
-                    }
+                catch {
+                    Write-Error "Failed to create registry key '$userKey': $_"
+                    continue
                 }
+            }
+
+            $values = $Table[$key]
+            foreach ($valueName in $values.Keys) {
+                $value = $values[$valueName]
+                try {
+                    $type = if ($value -is [int]) { "DWord" } else { "String" }
+                    Set-ItemProperty -Path $userKey -Name $valueName -Value $value -Type $type
+                }
+                catch {
+                    Write-Error "Failed to set value '$valueName' in key '$userKey': $_"
+                }
+            }
         }
     }
 }
