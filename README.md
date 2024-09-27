@@ -17,9 +17,10 @@
 
 ## Finished Benchmarks/Audits:
   - CIS Microsoft Windows 10 Stand-alone Benchmark v3.0.0
-## Planned Benchmarks/Audits:
   - CIS Microsoft Windows 11 Stand-alone Benchmark v3.0.0
+## In Progress Benchmarks/Audits:
   - CIS Microsoft Server 2019 Benchmark v3.0.1
+## Planned Benchmarks/Audits:
   - CIS Microsoft Server 2022 Benchmark v3.0.0
 ## Contributing:
   Contributions are welcome! If you'd like to improve the scripts, add support for new platforms, 
