@@ -19,7 +19,7 @@ HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters:AutoDisconnect 15
 HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters:RequireSecuritySignature 1
 HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters:EnableSecuritySignature 1
 HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters:enableforcedlogoff 1
-HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters:SMBServerNameHardeningLevel 1
+HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters:SMBServerNameHardeningLevel 1##set to 1,2
 HKLM\SYSTEM\CurrentControlSet\Control\Lsa:RestrictAnonymousSAM 1
 HKLM\SYSTEM\CurrentControlSet\Control\Lsa:RestrictAnonymous 1
 HKLM\SYSTEM\CurrentControlSet\Control\Lsa:DisableDomainCreds 1
@@ -93,7 +93,7 @@ HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging:LogSucces
 #L1Section18
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization:NoLockScreenCamera 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization:NoLockScreenSlideshow 1
-HKLM\SOFTWARE\Policies\Microsoft\InputPersonalization:AllowInputPersonalization 1
+HKLM\SOFTWARE\Policies\Microsoft\InputPersonalization:AllowInputPersonalization 0
 HKLM\SYSTEM\CurrentControlSet\Control\Print:RpcAuthnLevelPrivacyEnabled 1
 HKLM\SYSTEM\CurrentControlSet\Services\mrxsmb10:Start 4
 HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters:SMB1 0
@@ -292,7 +292,7 @@ HKU\[USER SID]\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot:TurnOffWindows
 
 #L2Section2
 HKLM\SYSTEM\CurrentControlSet\Control\Print\Providers\LanMan Print Services\Servers:AddPrinterDrivers 1
-HKLM\SOFTWARE\Policies\Microsoft\Cryptography:ForceKeyProtection 1
+HKLM\SOFTWARE\Policies\Microsoft\Cryptography:ForceKeyProtection 1##set to 1,2 
 #L2Section5
 HKLM\SYSTEM\CurrentControlSet\Services\BTAGService:Start 4
 HKLM\SYSTEM\CurrentControlSet\Services\bthserv:Start 4
@@ -417,7 +417,7 @@ HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions:DenyDeviceCl
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Kernel DMA Protection:DeviceEnumerationPolicy 0
 HKLM\SOFTWARE\Policies\Microsoft\Power\PowerSettings\abfc2519-3608-4c2a-94ea-171b0ed546ab:DCSettingIndex 0
 HKLM\SOFTWARE\Policies\Microsoft\Power\PowerSettings\abfc2519-3608-4c2a-94ea-171b0ed546ab:ACSettingIndex 0
-HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVDiscoveryVolumeType ""
+HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVDiscoveryVolumeType "<none>"
 HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVRecovery 1
 HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVManageDRA 1
 HKLM\SOFTWARE\Policies\Microsoft\FVE:FDVRecoveryPassword 2##set to 1 or 2
@@ -444,7 +444,7 @@ HKLM\SOFTWARE\Policies\Microsoft\FVE:OSHardwareEncryption 0
 HKLM\SOFTWARE\Policies\Microsoft\FVE:OSPassphrase 0
 HKLM\SOFTWARE\Policies\Microsoft\FVE:UseAdvancedStartup 1
 HKLM\SOFTWARE\Policies\Microsoft\FVE:EnableBDEWithNoTPM 0
-HKLM\SOFTWARE\Policies\Microsoft\FVE:RDVDiscoveryVolumeType ""
+HKLM\SOFTWARE\Policies\Microsoft\FVE:RDVDiscoveryVolumeType "<none>"
 HKLM\SOFTWARE\Policies\Microsoft\FVE:RDVRecovery 1
 HKLM\SOFTWARE\Policies\Microsoft\FVE:RDVManageDRA 1
 HKLM\SOFTWARE\Policies\Microsoft\FVE:RDVRecoveryPassword 0

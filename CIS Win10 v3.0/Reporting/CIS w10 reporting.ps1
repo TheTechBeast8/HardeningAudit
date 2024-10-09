@@ -1,6 +1,5 @@
 ﻿#Set the path for the secedit into windows temp as its doesnt need to be retained
-$seceditPath = 'C:\TOA\SecurityPolicy.inf'
-#Join-Path -Path $env:TEMP -ChildPath 'secedit.inf'
+$seceditPath = Join-Path -Path $env:TEMP -ChildPath 'secedit.inf'
 #export the file from secedit to the set path 
 #secedit.exe /export /cfg $seceditPath | Out-Null
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -77,14 +76,14 @@ $L1Section2 = @{
         @{ 'key' = 'ConsentPromptBehaviorAdmin'; 'type' = 'range'; 'value' = 1,2 },
         @{ 'key' = 'DontDisplayLastUserName'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'EnableLUA'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'InactivityTimeoutSecs'; 'type' = 'exact'; 'value' = 900 },
+        @{ 'key' = 'InactivityTimeoutSecs'; 'type' = 'comparison'; 'value' = "x -le 900 -and x -gt 0" },
         @{ 'key' = 'FilterAdministratorToken'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'EnableVirtualization'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters' = @(
         @{ 'key' = 'RestrictNullSessAccess'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'NullSessionShares'; 'type' = 'exact'; 'value' = "" },
-        @{ 'key' = 'SMBServerNameHardeningLevel'; 'type' = 'exact'; 'value' = 1 },
+        @{ 'key' = 'SMBServerNameHardeningLevel'; 'type' = 'range'; 'value' = 1,2 },
         @{ 'key' = 'enableforcedlogoff'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'EnableSecuritySignature'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'NullSessionPipes'; 'type' = 'exact'; 'value' = "" },
@@ -205,7 +204,7 @@ $L1Section18 = @{
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\System' = @(
         @{ 'key' = 'Retention'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -gt 32768" }
+        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -ge 32768" }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\mrxsmb10' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
@@ -266,7 +265,7 @@ $L1Section18 = @{
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application' = @(
         @{ 'key' = 'Retention'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -gt 32768" }
+        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -ge 32768" }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization' = @(
         @{ 'key' = 'NoLockScreenCamera'; 'type' = 'exact'; 'value' = 1 },
@@ -283,7 +282,7 @@ $L1Section18 = @{
         @{ 'key' = 'EnableAuthEpResolution'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\InputPersonalization' = @(
-        @{ 'key' = 'AllowInputPersonalization'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'AllowInputPersonalization'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection' = @(
         @{ 'key' = 'DoNotShowFeedbackNotifications'; 'type' = 'exact'; 'value' = 1 },
@@ -366,7 +365,7 @@ $L1Section18 = @{
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup' = @(
         @{ 'key' = 'Retention'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -gt 32768" }
+        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -ge 32768" }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\WcmSvc\GroupPolicy' = @(
         @{ 'key' = 'fMinimizeConnections'; 'type' = 'exact'; 'value' = 3 }
@@ -416,7 +415,7 @@ $L1Section18 = @{
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security' = @(
         @{ 'key' = 'Retention'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -gt 196608" }
+        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -ge 196608" }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation' = @(
         @{ 'key' = 'AllowInsecureGuestAuth'; 'type' = 'exact'; 'value' = 0 }
@@ -530,7 +529,7 @@ $L2Section2 = @{
         @{ 'key' = 'AddPrinterDrivers'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Cryptography' = @(
-        @{ 'key' = 'ForceKeyProtection'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'ForceKeyProtection'; 'type' = 'range'; 'value' = 1,2 }
     )
 }
 $L2Section5 = @{
@@ -822,7 +821,7 @@ $SectionBitlocker = @{
         @{ 'key' = 'RDVRecoveryPassword'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'FDVHardwareEncryption'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'RDVEnforceUserCert'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'RDVDiscoveryVolumeType'; 'type' = 'exact'; 'value' = "" },
+        @{ 'key' = 'RDVDiscoveryVolumeType'; 'type' = 'exact'; 'value' = "<none>" },
         @{ 'key' = 'RDVRecovery'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'OSRecovery'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'RDVHardwareEncryption'; 'type' = 'exact'; 'value' = 0 },
@@ -846,7 +845,7 @@ $SectionBitlocker = @{
         @{ 'key' = 'FDVAllowUserCert'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'UseEnhancedPin'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'RDVActiveDirectoryBackup'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'FDVDiscoveryVolumeType'; 'type' = 'exact'; 'value' = "" },
+        @{ 'key' = 'FDVDiscoveryVolumeType'; 'type' = 'exact'; 'value' = "<none>" },
         @{ 'key' = 'RDVPassphrase'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'EnableBDEWithNoTPM'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'RDVHideRecoveryPage'; 'type' = 'exact'; 'value' = 1 },

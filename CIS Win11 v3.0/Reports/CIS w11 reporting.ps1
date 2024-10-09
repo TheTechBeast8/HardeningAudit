@@ -21,8 +21,8 @@ $L1Section2 = @{
         @{ 'key' = 'ObCaseInsensitive'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' = @(
-        @{ 'key' = 'PasswordExpiryWarning'; 'type' = 'exact'; 'value' = 14 },
-        @{ 'key' = 'ScRemoveOption'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'PasswordExpiryWarning'; 'range' = 'exact'; 'value' = 5,6,7,8,9,10,11,12,13,14 },
+        @{ 'key' = 'ScRemoveOption'; 'type' = 'range'; 'value' = 1,2,3 }
     )
     'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters' = @(
         @{ 'key' = 'SupportedEncryptionTypes'; 'type' = 'exact'; 'value' = 2147483640 }
@@ -73,12 +73,12 @@ serConfiguration, Software\Microsoft\Windows NT\CurrentVersion\Perflib, System\C
         @{ 'key' = 'NoConnectedUser'; 'type' = 'exact'; 'value' = 3 },
         @{ 'key' = 'PromptOnSecureDesktop'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'DisableCAD'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'LegalNoticeText'; 'type' = 'exact'; 'value' = "Sample Text" },
+        @{ 'key' = 'LegalNoticeText'; 'type' = 'exact'; 'value' = "*" },
         @{ 'key' = 'EnableSecureUIAPaths'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'EnableInstallerDetection'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'LegalNoticeCaption'; 'type' = 'exact'; 'value' = "Sample Text" },
-        @{ 'key' = 'ConsentPromptBehaviorAdmin'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'InactivityTimeoutSecs'; 'type' = 'exact'; 'value' = 900 },
+        @{ 'key' = 'LegalNoticeCaption'; 'type' = 'exact'; 'value' = "*" },
+        @{ 'key' = 'ConsentPromptBehaviorAdmin'; 'type' = 'range'; 'value' = 1,2 },
+        @{ 'key' = 'InactivityTimeoutSecs'; 'type' = 'comparison'; 'value' = "x -le 900 -and x -gt 0" },
         @{ 'key' = 'DontDisplayLastUserName'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'EnableLUA'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'EnableVirtualization'; 'type' = 'exact'; 'value' = 1 },
@@ -91,9 +91,9 @@ serConfiguration, Software\Microsoft\Windows NT\CurrentVersion\Perflib, System\C
         @{ 'key' = 'EnableSecuritySignature'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'enableforcedlogoff'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'NullSessionPipes'; 'type' = 'exact'; 'value' = "" },
-        @{ 'key' = 'AutoDisconnect'; 'type' = 'exact'; 'value' = 15 },
+        @{ 'key' = 'AutoDisconnect'; 'type' = 'comparison'; 'value' = "x -le 15" },
         @{ 'key' = 'RequireSecuritySignature'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'SMBServerNameHardeningLevel'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'SMBServerNameHardeningLevel'; 'type' = 'range'; 'value' = 1,2 }
     )
 }
 $L1Section5 = @{
@@ -167,13 +167,13 @@ $L1Section9 = @{
         @{ 'key' = 'AllowLocalPolicyMerge'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile\Logging' = @(
-        @{ 'key' = 'LogFileSize'; 'type' = 'exact'; 'value' = 40000 },
+        @{ 'key' = 'LogFileSize'; 'type' = 'comparison'; 'value' = "x -ge 16384" },
         @{ 'key' = 'LogDroppedPackets'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'LogSuccessfulConnections'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'LogFilePath'; 'type' = 'exact'; 'value' = "%SystemRoot%\System32\logfiles\firewall\privatefw.log" }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging' = @(
-        @{ 'key' = 'LogFileSize'; 'type' = 'exact'; 'value' = 40000 },
+        @{ 'key' = 'LogFileSize'; 'type' = 'comparison'; 'value' = "x -ge 16384" },
         @{ 'key' = 'LogDroppedPackets'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'LogSuccessfulConnections'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'LogFilePath'; 'type' = 'exact'; 'value' = "%SystemRoot%\System32\logfiles\firewall\publicfw.log" }
@@ -191,7 +191,7 @@ $L1Section18 = @{
         @{ 'key' = 'LimitDiagnosticLogCollection'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'DisableOneSettingsDownloads'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'LimitDumpCollection'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'AllowTelemetry'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'AllowTelemetry'; 'type' = 'range'; 'value' = 0,1 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Printers\RPC' = @(
         @{ 'key' = 'RpcProtocols'; 'type' = 'exact'; 'value' = 5 },
@@ -210,17 +210,17 @@ $L1Section18 = @{
         @{ 'key' = 'DeferQualityUpdatesPeriodInDays'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'AllowTemporaryEnterpriseFeatureControl'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'SetDisablePauseUXAccess'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'DeferFeatureUpdatesPeriodInDays'; 'type' = 'exact'; 'value' = 180 }
+        @{ 'key' = 'DeferFeatureUpdatesPeriodInDays'; 'type' = 'comparison'; 'value' = "x -ge 180" }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager' = @(
         @{ 'key' = 'SafeDllSearchMode'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\InputPersonalization' = @(
-        @{ 'key' = 'AllowInputPersonalization'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'AllowInputPersonalization'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\System' = @(
         @{ 'key' = 'Retention'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'MaxSize'; 'type' = 'exact'; 'value' = 500000 }
+        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -ge 32768" }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\mrxsmb10' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
@@ -229,7 +229,7 @@ $L1Section18 = @{
         @{ 'key' = 'AllowBuildPreview'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' = @(
-        @{ 'key' = 'ScreenSaverGracePeriod'; 'type' = 'exact'; 'value' = 5 },
+        @{ 'key' = 'ScreenSaverGracePeriod'; 'type' = 'comparison'; 'value' = "x -le 5" },
         @{ 'key' = 'AutoAdminLogon'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\OneDrive' = @(
@@ -342,7 +342,7 @@ $L1Section18 = @{
         @{ 'key' = 'AllowSearchToUseLocation'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient' = @(
-        @{ 'key' = 'DoHPolicy'; 'type' = 'exact'; 'value' = 2 }
+        @{ 'key' = 'DoHPolicy'; 'type' = 'range'; 'value' = 2,3 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\CredUI' = @(
         @{ 'key' = 'DisablePasswordReveal'; 'type' = 'exact'; 'value' = 1 }
@@ -389,7 +389,7 @@ $L1Section18 = @{
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup' = @(
         @{ 'key' = 'Retention'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'MaxSize'; 'type' = 'exact'; 'value' = 500000 }
+        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -ge 32768" }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Biometrics\FacialFeatures' = @(
         @{ 'key' = 'EnhancedAntiSpoofing'; 'type' = 'exact'; 'value' = 1 }
@@ -398,7 +398,7 @@ $L1Section18 = @{
         @{ 'key' = 'AllowNewsAndInterests'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\Connect' = @(
-        @{ 'key' = 'RequirePinForPairing'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'RequirePinForPairing'; 'type' = 'range'; 'value' = 1,2 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\WTDS\Components' = @(
         @{ 'key' = 'CaptureThreatWindow'; 'type' = 'exact'; 'value' = 1 },
@@ -446,7 +446,7 @@ $L1Section18 = @{
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security' = @(
         @{ 'key' = 'Retention'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'MaxSize'; 'type' = 'exact'; 'value' = 500000 }
+        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -ge 196608" }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service' = @(
         @{ 'key' = 'DisableRunAs'; 'type' = 'exact'; 'value' = 1 },
@@ -454,7 +454,7 @@ $L1Section18 = @{
         @{ 'key' = 'AllowBasic'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization' = @(
-        @{ 'key' = 'DODownloadMode'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'DODownloadMode'; 'type' = 'range'; 'value' = 0,1,2,99,100 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\NetBT\Parameters' = @(
         @{ 'key' = 'NoNameReleaseOnDemand'; 'type' = 'exact'; 'value' = 1 },
@@ -462,10 +462,10 @@ $L1Section18 = @{
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application' = @(
         @{ 'key' = 'Retention'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'MaxSize'; 'type' = 'exact'; 'value' = 500000 }
+        @{ 'key' = 'MaxSize'; 'type' = 'comparison'; 'value' = "x -ge 32768" }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\WindowsInkWorkspace' = @(
-        @{ 'key' = 'AllowWindowsInkWorkspace'; 'type' = 'exact'; 'value' = 0 }
+        @{ 'key' = 'AllowWindowsInkWorkspace'; 'type' = 'range'; 'value' = 0,1 }
     )
     'HKLM\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config' = @(
         @{ 'key' = 'AutoConnectAllowedOEM'; 'type' = 'exact'; 'value' = 0 }
@@ -478,7 +478,7 @@ $L1Section18 = @{
         @{ 'key' = 'NC_ShowSharedAccessUI'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\Eventlog\Security' = @(
-        @{ 'key' = 'WarningLevel'; 'type' = 'exact'; 'value' = 90 }
+        @{ 'key' = 'WarningLevel'; 'type' = 'comparison'; 'value' = "x -le 90" }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection' = @(
         @{ 'key' = 'DisallowExploitProtectionOverride'; 'type' = 'exact'; 'value' = 1 }
@@ -517,7 +517,7 @@ $L1Section18 = @{
         @{ 'key' = 'LsaCfgFlags'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'ConfigureSystemGuardLaunch'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'EnableVirtualizationBasedSecurity'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'RequirePlatformSecurityFeatures'; 'type' = 'exact'; 'value' = 3 },
+        @{ 'key' = 'RequirePlatformSecurityFeatures'; 'type' = 'range'; 'value' = 1,3 },
         @{ 'key' = 'ConfigureKernelShadowStacksLaunch'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'HVCIMATRequired'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'HypervisorEnforcedCodeIntegrity'; 'type' = 'exact'; 'value' = 1 }
@@ -562,7 +562,7 @@ $L2Section2 = @{
         @{ 'key' = 'AddPrinterDrivers'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Cryptography' = @(
-        @{ 'key' = 'ForceKeyProtection'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'ForceKeyProtection'; 'type' = 'range'; 'value' = 1,2 }
     )
 }
 $L2Section5 = @{
@@ -725,7 +725,7 @@ $L2Section18 = @{
         @{ 'key' = 'MaxDisconnectionTime'; 'type' = 'exact'; 'value' = 60000 },
         @{ 'key' = 'fDenyTSConnections'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'fDisablePNPRedir'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'MaxIdleTime'; 'type' = 'exact'; 'value' = 900000 },
+        @{ 'key' = 'MaxIdleTime'; 'type' = 'comparison'; 'value' = "x -le 900000 -and x -gt 0" },
         @{ 'key' = 'fDisableLocationRedir'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'EnableUiaRedirection'; 'type' = 'exact'; 'value' = 0 }
     )
@@ -853,11 +853,11 @@ $SectionBitlocker = @{
     'HKLM\SOFTWARE\Policies\Microsoft\FVE' = @(
         @{ 'key' = 'FDVEnforceUserCert'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'RDVDenyCrossOrg'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'FDVRecoveryKey'; 'type' = 'exact'; 'value' = 2 },
+        @{ 'key' = 'FDVRecoveryKey'; 'type' = 'range'; 'value' = 1,2 },
         @{ 'key' = 'FDVAllowUserCert'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'RDVActiveDirectoryInfoToStore'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'OSRecoveryPassword'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'FDVDiscoveryVolumeType'; 'type' = 'exact'; 'value' = "" },
+        @{ 'key' = 'FDVDiscoveryVolumeType'; 'type' = 'exact'; 'value' = "<none>" },
         @{ 'key' = 'FDVPassphrase'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'FDVHideRecoveryPage'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'FDVActiveDirectoryBackup'; 'type' = 'exact'; 'value' = 0 },
@@ -888,11 +888,11 @@ $SectionBitlocker = @{
         @{ 'key' = 'RDVAllowUserCert'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'UseEnhancedPin'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'RDVEnforceUserCert'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'FDVRecoveryPassword'; 'type' = 'exact'; 'value' = 2 },
+        @{ 'key' = 'FDVRecoveryPassword'; 'type' = 'range'; 'value' = 1,2 },
         @{ 'key' = 'UseTPM'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'OSHardwareEncryption'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'RDVRecovery'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'RDVDiscoveryVolumeType'; 'type' = 'exact'; 'value' = "" },
+        @{ 'key' = 'RDVDiscoveryVolumeType'; 'type' = 'exact'; 'value' = "<none>" },
         @{ 'key' = 'FDVRequireActiveDirectoryBackup'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'RDVPassphrase'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'UseTPMKeyPIN'; 'type' = 'exact'; 'value' = 0 },
