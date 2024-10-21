@@ -8,11 +8,10 @@ $AdminPriv = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]:
 if(-not $AdminPriv){
 	throw "Administrator privileges required!"
 }
-$IsDC = $false
 # Check if the system is a Domain Controller by querying the domain role
 $domainRole = (Get-WmiObject Win32_ComputerSystem).DomainRole
 if ($domainRole -eq 4 -or $domainRole -eq 5) {
-    $IsDC = $true
+    global:$IsDC = $true
 }
 $L1Section2DC = @{
     'HKLM\SYSTEM\CurrentControlSet\Services\NTDS\Parameters' = @(
@@ -841,50 +840,48 @@ function Compare-UserRights {
         [hashtable]$currentRights
     )
     $expectedDCRights = @{
+        "SeTrustedCredManAccessPrivilege" = $null
+        "SeNetworkLogonRight" = "S-1-5-32-544, S-1-5-32-555"
+        "SeTcbPrivilege" = $null
+        "SeIncreaseQuotaPrivilege" = "S-1-5-32-544, S-1-5-19, S-1-5-20"
+        "SeInteractiveLogonRight" = "S-1-5-32-544, S-1-5-32-545"
+        "SeRemoteInteractiveLogonRight" = "S-1-5-32-544, S-1-5-32-555"
+        "SeBackupPrivilege"= "S-1-5-32-544"
+        "SeSystemtimePrivilege"= "S-1-5-32-544, S-1-5-19"
+        "SeTimeZonePrivilege"= "S-1-5-32-544, S-1-5-19, S-1-5-32-545"
+        "SeCreatePagefilePrivilege"= "S-1-5-32-544"
+        "SeCreateTokenPrivilege"= $null
+        "SeCreateGlobalPrivilege"= "S-1-5-32-544, S-1-5-19, S-1-5-20, S-1-5-6"
+        "SeCreatePermanentPrivilege"= $null
+        "SeCreateSymbolicLinkPrivilege"= "S-1-5-32-544"
+        "SeDebugPrivilege"= "S-1-5-32-544"
+        "SeDenyNetworkLogonRight"= "S-1-5-32-546"
+        "SeDenyBatchLogonRight"= "S-1-5-32-546"
+        "SeDenyServiceLogonRight"= "S-1-5-32-546"
+        "SeDenyInteractiveLogonRight"= "S-1-5-32-546"
+        "SeDenyRemoteInteractiveLogonRight"= "S-1-5-32-546"
+        "SeEnableDelegationPrivilege"= $null
+        "SeRemoteShutdownPrivilege"= "S-1-5-32-544"
+        "SeAuditPrivilege"= "S-1-5-19, S-1-5-20"
+        "SeImpersonatePrivilege"= "S-1-5-32-544, S-1-5-19, S-1-5-20, S-1-5-6"
+        "SeIncreaseBasePriorityPrivilege"= "S-1-5-32-544, S-1-5-90-0"
+        "SeLoadDriverPrivilege"= "S-1-5-32-544"
+        "SeLockMemoryPrivilege"= $null
+        "SeBatchLogonRight"= "S-1-5-32-544"
+        "SeServiceLogonRight"= "WDAGUtilityAccount"
+        "SeSecurityPrivilege"= "S-1-5-32-544"
+        "SeRelabelPrivilege"= $null
+        "SeSystemEnvironmentPrivilege"= "S-1-5-32-544"
+        "SeManageVolumePrivilege"= "S-1-5-32-544"
+        "SeProfileSingleProcessPrivilege"= "S-1-5-32-544"
+        "SeSystemProfilePrivilege"= "S-1-5-32-544, S-1-5-80-3139157870-2983391045-3678747466-658725712-1809340420"
+        "SeAssignPrimaryTokenPrivilege"= "S-1-5-19, S-1-5-20"
+        "SeRestorePrivilege"= "S-1-5-32-544"
+        "SeShutdownPrivilege"= "S-1-5-32-544, S-1-5-32-545"
+        "SeTakeOwnershipPrivilege"= "S-1-5-32-544"
     }
     $expectedMSRights = @{
     }
-    $expectedRights = @{
-    "SeTrustedCredManAccessPrivilege" = $null
-    "SeNetworkLogonRight" = "S-1-5-32-544, S-1-5-32-555"
-    "SeTcbPrivilege" = $null
-    "SeIncreaseQuotaPrivilege" = "S-1-5-32-544, S-1-5-19, S-1-5-20"
-    "SeInteractiveLogonRight" = "S-1-5-32-544, S-1-5-32-545"
-    "SeRemoteInteractiveLogonRight" = "S-1-5-32-544, S-1-5-32-555"
-    "SeBackupPrivilege"= "S-1-5-32-544"
-    "SeSystemtimePrivilege"= "S-1-5-32-544, S-1-5-19"
-    "SeTimeZonePrivilege"= "S-1-5-32-544, S-1-5-19, S-1-5-32-545"
-    "SeCreatePagefilePrivilege"= "S-1-5-32-544"
-    "SeCreateTokenPrivilege"= $null
-    "SeCreateGlobalPrivilege"= "S-1-5-32-544, S-1-5-19, S-1-5-20, S-1-5-6"
-    "SeCreatePermanentPrivilege"= $null
-    "SeCreateSymbolicLinkPrivilege"= "S-1-5-32-544"
-    "SeDebugPrivilege"= "S-1-5-32-544"
-    "SeDenyNetworkLogonRight"= "S-1-5-32-546"
-    "SeDenyBatchLogonRight"= "S-1-5-32-546"
-    "SeDenyServiceLogonRight"= "S-1-5-32-546"
-    "SeDenyInteractiveLogonRight"= "S-1-5-32-546"
-    "SeDenyRemoteInteractiveLogonRight"= "S-1-5-32-546"
-    "SeEnableDelegationPrivilege"= $null
-    "SeRemoteShutdownPrivilege"= "S-1-5-32-544"
-    "SeAuditPrivilege"= "S-1-5-19, S-1-5-20"
-    "SeImpersonatePrivilege"= "S-1-5-32-544, S-1-5-19, S-1-5-20, S-1-5-6"
-    "SeIncreaseBasePriorityPrivilege"= "S-1-5-32-544, S-1-5-90-0"
-    "SeLoadDriverPrivilege"= "S-1-5-32-544"
-    "SeLockMemoryPrivilege"= $null
-    "SeBatchLogonRight"= "S-1-5-32-544"
-    "SeServiceLogonRight"= "WDAGUtilityAccount"
-    "SeSecurityPrivilege"= "S-1-5-32-544"
-    "SeRelabelPrivilege"= $null
-    "SeSystemEnvironmentPrivilege"= "S-1-5-32-544"
-    "SeManageVolumePrivilege"= "S-1-5-32-544"
-    "SeProfileSingleProcessPrivilege"= "S-1-5-32-544"
-    "SeSystemProfilePrivilege"= "S-1-5-32-544, S-1-5-80-3139157870-2983391045-3678747466-658725712-1809340420"
-    "SeAssignPrimaryTokenPrivilege"= "S-1-5-19, S-1-5-20"
-    "SeRestorePrivilege"= "S-1-5-32-544"
-    "SeShutdownPrivilege"= "S-1-5-32-544, S-1-5-32-545"
-    "SeTakeOwnershipPrivilege"= "S-1-5-32-544"
-}
     $errorCount = 0
     #function to reorginize the values so that they are in the same order for the comparison
     function Format-Value {
@@ -897,7 +894,7 @@ function Compare-UserRights {
         } | Sort-Object | Out-String -Stream
         return ($format -join ", ").Trim()
     }
-    If ($IsDC = $true){
+    If (global:$IsDC = $true){
     #loop through the expected rights table 
     foreach ($key in $expectedDCRights.Keys) {
         #collect the current value when "noone" is confiugred it doesnt have they key in the secedit file so we slap a null so that it can still be evaluated
@@ -1130,7 +1127,7 @@ function Compare-Audit-Policies{
     }
     # Initialize an error counter
         $errorCount = 0
-        IF ($IsDC = $true){
+        IF (global:$IsDC = $true){
         # Loop through the expected audit policies
         foreach ($key in $expectedDCAuditPolicies.Keys) {
             # Run auditpol to get the current setting for the subcategory
@@ -1329,7 +1326,7 @@ function GetPercentage {
 # Collect all the percentages
 
 # Create a table with the results
-IF ($IsDC = $true)  {
+IF (global:$IsDC = $true)  {
     $PossibleDCAnswers = @{
         UserRights = 39
         SecAcc = 15
