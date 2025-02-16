@@ -1,7 +1,7 @@
 ﻿#Set the path for the secedit into windows temp as its doesnt need to be retained
 $seceditPath = Join-Path -Path $env:TEMP -ChildPath 'secedit.inf'
 #export the file from secedit to the set path 
-#secedit.exe /export /cfg $seceditPath | Out-Null
+secedit.exe /export /cfg $seceditPath | Out-Null
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 $AdminPriv = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 #Perform check for admin rights as it is require for this to function
@@ -93,16 +93,16 @@ $L1Section2 = @{
 }
 $L1Section5 = @{
     'HKLM\SYSTEM\CurrentControlSet\Services\XblGameSave' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\simptcp' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\XboxNetApiSvc' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\W3SVC' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\SSDPSRV' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
@@ -111,46 +111,46 @@ $L1Section5 = @{
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\XboxGipSvc' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\irmon' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true}
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\FTPSVC' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\sacsvr' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\sshd' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\Browser' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\RpcLocator' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\WMPNetworkSvc' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\IISADMIN' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\XblAuthManager' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\icssvc' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\WMSvc' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\LxssManager' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\RemoteAccess' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
@@ -524,7 +524,7 @@ $L1Section19 = @{
         @{ 'key' = 'NoToastApplicationNotificationOnLockScreen'; 'type' = 'exact'; 'value' = 1 }
     )
 }
-$L2Section2 = @{
+$L2Section2 = @{ 
     'HKLM\SYSTEM\CurrentControlSet\Control\Print\Providers\LanMan Print Services\Servers' = @(
         @{ 'key' = 'AddPrinterDrivers'; 'type' = 'exact'; 'value' = 1 }
     )
@@ -597,7 +597,7 @@ $L2Section5 = @{
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\SNMP' = @(
-        @{ 'key' = 'Start'; 'type' = 'noexistOK'; 'value' = 4 }
+        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4; 'noexistOK' = $true }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\WinRM' = @(
         @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
@@ -749,7 +749,7 @@ $L2Section18 = @{
         @{ 'key' = 'NoRegistration'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet' = @(
-        @{ 'key' = 'SpynetReporting'; 'type' = 'noexistOK'; 'value' = 0 }
+        @{ 'key' = 'SpynetReporting'; 'type' = 'exact'; 'value' = 0; 'noexistOK' = $true }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors' = @(
         @{ 'key' = 'DisableLocation'; 'type' = 'exact'; 'value' = 1 }
@@ -1294,23 +1294,23 @@ function Compare-RegistryKeys {
                     }
                     #if the type is text the it does a conversion of the current value to a string then compares them. 
                     'text' {
-                    $ExpectedValue = $keyInfo.value
-                    [string]$currentValueString = $currentValue
-                    if ($currentValueString -ne $ExpectedValue) {
-                        Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                        Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                        Write-Host "  Current Value: $currentValueString" -ForegroundColor Red
-                        Write-Host "  Expected Value: $($keyInfo.value)" -ForegroundColor Red
-                        $errorCount++
-                      }
+                        $ExpectedValue = $keyInfo.value
+                        [string]$currentValueString = $currentValue
+                        if ($currentValueString -ne $ExpectedValue) {
+                            Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
+                            Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
+                            Write-Host "  Current Value: $currentValueString" -ForegroundColor Red
+                            Write-Host "  Expected Value: $($keyInfo.value)" -ForegroundColor Red
+                            $errorCount++
+                        }
                     }
                 }
             }
             catch {
                 #the catch for all the errors in the current value lookup land here 
-                #if the type is not noexistOK then it increments the error count
-                #if it is noexistOK then nothing happnes as its fine it doesnt exist 
-                If ($keyInfo.type -ne "noexistOK"){
+                #if the flag noexistOK doesnt exist or is false it increments the error count
+                #if noexistOK is true then nothing happnes as its fine it doesnt exist 
+                If ($keyInfo.noexistOK -ne $true){
                     Write-Host "Registry path does not exist: $regPath\$($keyInfo.key)" -ForegroundColor Yellow
                     $errorCount++
                 }    
