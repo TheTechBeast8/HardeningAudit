@@ -15,6 +15,11 @@
 ## Usage:
   Currently, the scripts are meant to be used with an RMM platform that allows you to schedule and script jobs or as stand-alone scripts. The deployment scripts do not apply any GPO-specific changes, but the audit script does check for them.
 
+  There are several things that you may or may not need.
+  GPOs - GPOs to delploy the CIS standards are located in the related versions GPO folder. You can get into group policy manager and restore them from backup
+  Deployments scripts - if you prefer to deploy them via scripts i have those in the related version Deployment Scripts folder.
+  Reports - The report to show you your compliance score and to tell you what configurations are missing.
+
 ## Finished Benchmarks/Audits:
   - CIS Microsoft Windows 10 Stand-alone Benchmark v3.0.0
   - CIS Microsoft Windows 11 Stand-alone Benchmark v3.0.0
