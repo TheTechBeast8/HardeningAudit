@@ -1190,135 +1190,138 @@ $expectedAuditPolicies = @{
 "Security System Extension" = "Success"
 "System Integrity" = "Success and Failure"
 }
-# Initialize an error counter
-    $errorCount = 0
+$errorCount = 0
+    
+# Get all audit policies at once
+$currentPolicies = auditpol /get /category:* /r | ConvertFrom-Csv
 
-    # Loop through the expected audit policies
-    foreach ($key in $expectedAuditPolicies.Keys) {
-        # Run auditpol to get the current setting for the subcategory
-        $auditpolOutput = auditpol /get /subcategory:"$key" /r | ConvertFrom-Csv
-        $currentAuditPolicy = $auditpolOutput.'Inclusion Setting'
+# Create lookup table for faster access
+$policyLookup = @{}
+foreach ($policy in $currentPolicies) {
+    $policyLookup[$policy.'Subcategory'] = $policy.'Inclusion Setting'
+}
 
-        # If no match is found or it's "No Auditing", set it to "None"
-        if (-not $currentAuditPolicy -or $currentAuditPolicy -eq "No Auditing") {
-            $currentAuditPolicy = "None"
-        }
-
-        # Get the expected value
-        $expectedValue = $expectedAuditPolicies[$key]
-
-        # Check if the current value matches the expected value
-        if ($currentAuditPolicy -ne $expectedValue) {
-            Write-Host "Discrepancy for '$key':" -ForegroundColor Red
-            Write-Host "  Current:  $currentAuditPolicy" -ForegroundColor Red
-            Write-Host "  Expected: $expectedValue" -ForegroundColor Red
-            $errorCount++
-        }
+# Compare against expected values
+foreach ($key in $expectedAuditPolicies.Keys) {
+    $currentAuditPolicy = $policyLookup[$key]
+    if (-not $currentAuditPolicy -or $currentAuditPolicy -eq "No Auditing") {
+        $currentAuditPolicy = "None"
     }
+    
+    if ($currentAuditPolicy -ne $expectedAuditPolicies[$key]) {
+        Write-Host "Discrepancy for '$key':" -ForegroundColor Red
+        Write-Host "  Current:  $currentAuditPolicy" -ForegroundColor Red
+        Write-Host "  Expected: $($expectedAuditPolicies[$key])" -ForegroundColor Red
+        $errorCount++
+    }
+}
 
-    # Return the total number of errors found
-    return $errorCount
+return $errorCount
 }
 function Compare-RegistryKeys {
     param (
         [Parameter(Mandatory = $true)]
         [hashtable]$RegistryConfig
     )
-    #initialzie error count
+    
+    # Initialize variables
     $errorCount = 0
-    #collect current user SID for use in User specific keys
     $currentUserSID = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
-    #loop through each  hive path in each hashtable
+    
+    # Create runspaces pool for parallel processing
+    $runspacePool = [runspacefactory]::CreateRunspacePool(1, 10)
+    $runspacePool.Open()
+    $jobs = @()
+
+    # Process each registry path
     foreach ($path in $RegistryConfig.Keys) {
-        #keep the original path
         $originalPath = $path
-        #if it is a user key replace some variables with the proper info
-        if ($path -match '^HKU\\'){
-            $regPath = $path -replace '\[USER SID\]', $currentUserSID
-            #also modify to specifically look at the registry 
-            $regPath = $regpath -replace '^HKU\\', 'Registry::HKEY_USERS\'
-        }
-        Else{
-            #if its a local machine key rewrite it to make sure they are all formated the same
-            $regPath = $path -replace '^HKLM\\', 'HKLM:\'
-        }
-        #this is now peaking into the sub array under each hive path
         $keyInfoArray = $RegistryConfig[$originalPath]
-        #loop through each registry value under each path
-        foreach ($keyInfo in $keyInfoArray) {
-            #have a try statement since some times it can fail to complete 
-            try {
-                #collect the current value if the path doesnt exist then error action stop to immediatly drop to the catch 
-                $currentValue = Get-ItemProperty -Path $regPath -Name $keyInfo.key -ErrorAction Stop | 
-                                    Select-Object -ExpandProperty $keyInfo.key
-                #Legal notice title and body can be any text the company sees fit not a defined value
-                #checks to make sure its not empty
-                if ($keyInfo.value -eq '*' -or $keyInfo.value -eq 'any') {
-                    # Skip comparison if any value is fine
-                    continue
+        
+        # Create PowerShell instance for parallel processing
+        $powershell = [powershell]::Create().AddScript({
+            param($path, $currentUserSID, $keyInfoArray)
+            
+            # Transform path
+            if ($path -match '^HKU\\') {
+                $regPath = $path -replace '\[USER SID\]', $currentUserSID
+                $regPath = $regPath -replace '^HKU\\', 'Registry::HKEY_USERS\'
+            }
+            else {
+                $regPath = $path -replace '^HKLM\\', 'HKLM:\'
+            }
+            
+            # Process each key in the path
+            $results = foreach ($keyInfo in $keyInfoArray) {
+                try {
+                    $currentValue = Get-ItemProperty -Path $regPath -Name $keyInfo.key -ErrorAction Stop |
+                        Select-Object -ExpandProperty $keyInfo.key
+                    
+                    $isMatch = switch ($keyInfo.type) {
+                        'exact' { $currentValue -eq $keyInfo.value }
+                        'range' { $currentValue -in ($keyInfo.value -split ',') }
+                        'comparison' { 
+                            $comparisonString = $keyInfo.value -replace 'x', $currentValue
+                            Invoke-Expression $comparisonString
+                        }
+                        'text' { [string]$currentValue -eq $keyInfo.value }
+                    }
+                    
+                    if (-not $isMatch) {
+                        @{
+                            Path = $regPath
+                            Key = $keyInfo.key
+                            CurrentValue = $currentValue
+                            ExpectedValue = $keyInfo.value
+                            Error = $false
+                        }
+                    }
                 }
-                #looks at they type field in all the defind hashtables and performs a specific type of comparison
-                switch ($keyInfo.type) {
-                    #if the type is exact it does a normal 1=1 comparison
-                    'exact' {
-                        if ($currentValue -ne $keyInfo.value) {
-                            Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                            Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                            Write-Host "  Current Value: $currentValue" -ForegroundColor Red
-                            Write-Host "  Expected Value: $($keyInfo.value)" -ForegroundColor Red
-                            $errorCount++
-                        }
-                    }
-                    #if the type is range it accepts a range of values and splits them all and checks them 1 in 1,2,3 is a pass 0 in 1,2,3 is a fail
-                    'range' {
-                        $acceptedValues = $keyInfo.value -split ','
-                        if ($currentValue -notin $acceptedValues) {
-                            Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                            Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                            Write-Host "  Current Value: $currentValue" -ForegroundColor Red
-                            Write-Host "  Expected Values: $($keyInfo.value)" -ForegroundColor Red
-                            $errorCount++
-                        }
-                    }
-                    #if the type is comparison it does a exact lookup on the text i provided in the value where it replaces x with the current value 
-                    #example x -gt 5 where x is 1 would fail since -gt is greater than
-                    'comparison' {
-                        $comparisonString = $keyInfo.value -replace 'x', $currentValue
-                        if (!(Invoke-Expression $comparisonString)) {
-                            Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                            Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                            Write-Host "  Current Value: $currentValue" -ForegroundColor Red
-                            Write-Host "  Expected Condition: $($keyInfo.value)" -ForegroundColor Red
-                            $errorCount++
-                        }
-                    }
-                    #if the type is text the it does a conversion of the current value to a string then compares them. 
-                    'text' {
-                        $ExpectedValue = $keyInfo.value
-                        [string]$currentValueString = $currentValue
-                        if ($currentValueString -ne $ExpectedValue) {
-                            Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                            Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                            Write-Host "  Current Value: $currentValueString" -ForegroundColor Red
-                            Write-Host "  Expected Value: $($keyInfo.value)" -ForegroundColor Red
-                            $errorCount++
+                catch {
+                    if ($keyInfo.noexistOK -ne $true) {
+                        @{
+                            Path = $regPath
+                            Key = $keyInfo.key
+                            Error = $true
                         }
                     }
                 }
             }
-            catch {
-                #the catch for all the errors in the current value lookup land here 
-                #if the flag noexistOK doesnt exist or is false it increments the error count
-                #if noexistOK is true then nothing happnes as its fine it doesnt exist 
-                If ($keyInfo.noexistOK -ne $true){
-                    Write-Host "Registry path does not exist: $regPath\$($keyInfo.key)" -ForegroundColor Yellow
-                    $errorCount++
-                }    
-
-
-            }
+            
+            $results
+        }).AddArgument($path).AddArgument($currentUserSID).AddArgument($keyInfoArray)
+        
+        $powershell.RunspacePool = $runspacePool
+        
+        $jobs += @{
+            PowerShell = $powershell
+            Handle = $powershell.BeginInvoke()
         }
     }
+    
+    # Process results as they complete
+    foreach ($job in $jobs) {
+        $results = $job.PowerShell.EndInvoke($job.Handle)
+        foreach ($result in $results) {
+            if ($result.Error) {
+                Write-Host "Registry path does not exist: $($result.Path)\$($result.Key)" -ForegroundColor Yellow
+                $errorCount++
+            }
+            else {
+                Write-Host "Discrepancy found in $($result.Path)" -ForegroundColor Red
+                Write-Host "  Key: $($result.Key)" -ForegroundColor Red
+                Write-Host "  Current Value: $($result.CurrentValue)" -ForegroundColor Red
+                Write-Host "  Expected Value: $($result.ExpectedValue)" -ForegroundColor Red
+                $errorCount++
+            }
+        }
+        $job.PowerShell.Dispose()
+    }
+    
+    # Clean up
+    $runspacePool.Close()
+    $runspacePool.Dispose()
+    
     return $errorCount
 }
 #

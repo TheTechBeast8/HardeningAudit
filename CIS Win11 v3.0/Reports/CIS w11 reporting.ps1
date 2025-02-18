@@ -1,3 +1,4 @@
+$startTime = Get-Date
 #Set the path for the secedit into windows temp as its doesnt need to be retained
 $seceditPath = Join-Path -Path $env:TEMP -ChildPath 'secedit.inf'
 #export the file from secedit to the set path 
@@ -21,7 +22,7 @@ $L1Section2 = @{
         @{ 'key' = 'ObCaseInsensitive'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' = @(
-        @{ 'key' = 'PasswordExpiryWarning'; 'range' = 'exact'; 'value' = 5,6,7,8,9,10,11,12,13,14 },
+        @{ 'key' = 'PasswordExpiryWarning'; 'type' = 'range'; 'value' = 5,6,7,8,9,10,11,12,13,14 },
         @{ 'key' = 'ScRemoveOption'; 'type' = 'range'; 'value' = 1,2,3 }
     )
     'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters' = @(
@@ -1211,111 +1212,138 @@ function Compare-Audit-Policies{
     "System Integrity" = "Success and Failure"
     }
     # Initialize an error counter
-        $errorCount = 0
+    $errorCount = 0
     
-        # Loop through the expected audit policies
-        foreach ($key in $expectedAuditPolicies.Keys) {
-            # Run auditpol to get the current setting for the subcategory
-            $auditpolOutput = auditpol /get /subcategory:"$key" /r | ConvertFrom-Csv
-            $currentAuditPolicy = $auditpolOutput.'Inclusion Setting'
+    # Get all audit policies at once
+    $currentPolicies = auditpol /get /category:* /r | ConvertFrom-Csv
     
-            # If no match is found or it's "No Auditing", set it to "None"
-            if (-not $currentAuditPolicy -or $currentAuditPolicy -eq "No Auditing") {
-                $currentAuditPolicy = "None"
-            }
+    # Create lookup table for faster access
+    $policyLookup = @{}
+    foreach ($policy in $currentPolicies) {
+        $policyLookup[$policy.'Subcategory'] = $policy.'Inclusion Setting'
+    }
     
-            # Get the expected value
-            $expectedValue = $expectedAuditPolicies[$key]
-    
-            # Check if the current value matches the expected value
-            if ($currentAuditPolicy -ne $expectedValue) {
-                Write-Host "Discrepancy for '$key':" -ForegroundColor Red
-                Write-Host "  Current:  $currentAuditPolicy" -ForegroundColor Red
-                Write-Host "  Expected: $expectedValue" -ForegroundColor Red
-                $errorCount++
-            }
+    # Compare against expected values
+    foreach ($key in $expectedAuditPolicies.Keys) {
+        $currentAuditPolicy = $policyLookup[$key]
+        if (-not $currentAuditPolicy -or $currentAuditPolicy -eq "No Auditing") {
+            $currentAuditPolicy = "None"
         }
+        
+        if ($currentAuditPolicy -ne $expectedAuditPolicies[$key]) {
+            Write-Host "Discrepancy for '$key':" -ForegroundColor Red
+            Write-Host "  Current:  $currentAuditPolicy" -ForegroundColor Red
+            Write-Host "  Expected: $($expectedAuditPolicies[$key])" -ForegroundColor Red
+            $errorCount++
+        }
+    }
     
-        # Return the total number of errors found
-        return $errorCount
+    return $errorCount
     }
 function Compare-RegistryKeys {
     param (
         [Parameter(Mandatory = $true)]
         [hashtable]$RegistryConfig
     )
+    
+    # Initialize variables
     $errorCount = 0
     $currentUserSID = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+    
+    # Create runspaces pool for parallel processing
+    $runspacePool = [runspacefactory]::CreateRunspacePool(1, 10)
+    $runspacePool.Open()
+    $jobs = @()
 
+    # Process each registry path
     foreach ($path in $RegistryConfig.Keys) {
         $originalPath = $path
-        if ($path -match '^HKU\\'){
-            $regPath = $path -replace '\[USER SID\]', $currentUserSID
-            $regPath = $regpath -replace '^HKU\\', 'Registry::HKEY_USERS\'
-        }
-        Else{
-            $regPath = $path -replace '^HKLM\\', 'HKLM:\'
-        }
         $keyInfoArray = $RegistryConfig[$originalPath]
         
-        foreach ($keyInfo in $keyInfoArray) {
-            try {
-                $currentValue = Get-ItemProperty -Path $regPath -Name $keyInfo.key -ErrorAction Stop | 
-                                    Select-Object -ExpandProperty $keyInfo.key
-                switch ($keyInfo.type) {
-                    'exact' {
-                        if ($currentValue -ne $keyInfo.value) {
-                            Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                            Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                            Write-Host "  Current Value: $currentValue" -ForegroundColor Red
-                            Write-Host "  Expected Value: $($keyInfo.value)" -ForegroundColor Red
-                            $errorCount++
+        # Create PowerShell instance for parallel processing
+        $powershell = [powershell]::Create().AddScript({
+            param($path, $currentUserSID, $keyInfoArray)
+            
+            # Transform path
+            if ($path -match '^HKU\\') {
+                $regPath = $path -replace '\[USER SID\]', $currentUserSID
+                $regPath = $regPath -replace '^HKU\\', 'Registry::HKEY_USERS\'
+            }
+            else {
+                $regPath = $path -replace '^HKLM\\', 'HKLM:\'
+            }
+            
+            # Process each key in the path
+            $results = foreach ($keyInfo in $keyInfoArray) {
+                try {
+                    $currentValue = Get-ItemProperty -Path $regPath -Name $keyInfo.key -ErrorAction Stop |
+                        Select-Object -ExpandProperty $keyInfo.key
+                    
+                    $isMatch = switch ($keyInfo.type) {
+                        'exact' { $currentValue -eq $keyInfo.value }
+                        'range' { $currentValue -in ($keyInfo.value -split ',') }
+                        'comparison' { 
+                            $comparisonString = $keyInfo.value -replace 'x', $currentValue
+                            Invoke-Expression $comparisonString
+                        }
+                        'text' { [string]$currentValue -eq $keyInfo.value }
+                    }
+                    
+                    if (-not $isMatch) {
+                        @{
+                            Path = $regPath
+                            Key = $keyInfo.key
+                            CurrentValue = $currentValue
+                            ExpectedValue = $keyInfo.value
+                            Error = $false
                         }
                     }
-                    'range' {
-                        $acceptedValues = $keyInfo.value -split ','
-                        if ($currentValue -notin $acceptedValues) {
-                            Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                            Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                            Write-Host "  Current Value: $currentValue" -ForegroundColor Red
-                            Write-Host "  Expected Values: $($keyInfo.value)" -ForegroundColor Red
-                            $errorCount++
-                        }
-                    }
-                    'comparison' {
-                        $comparisonString = $keyInfo.value -replace 'x', $currentValue
-                        if (!(Invoke-Expression $comparisonString)) {
-                            Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                            Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                            Write-Host "  Current Value: $currentValue" -ForegroundColor Red
-                            Write-Host "  Expected Condition: $($keyInfo.value)" -ForegroundColor Red
-                            $errorCount++
-                        }
-                    }
-                    'text' {
-                        $ExpectedValue = $keyInfo.value
-                        [string]$currentValueString = $currentValue
-                        if ($currentValueString -ne $ExpectedValue) {
-                            Write-Host "Discrepancy found in $regPath" -ForegroundColor Red
-                            Write-Host "  Key: $($keyInfo.key)" -ForegroundColor Red
-                            Write-Host "  Current Value: $currentValueString" -ForegroundColor Red
-                            Write-Host "  Expected Value: $($keyInfo.value)" -ForegroundColor Red
-                            $errorCount++
+                }
+                catch {
+                    if ($keyInfo.noexistOK -ne $true) {
+                        @{
+                            Path = $regPath
+                            Key = $keyInfo.key
+                            Error = $true
                         }
                     }
                 }
             }
-            catch {
-                #the catch for all the errors in the current value lookup land here 
-                #if the flag noexistOK doesnt exist or is false it increments the error count
-                #if noexistOK is true then nothing happnes as its fine it doesnt exist 
-                If ($keyInfo.noexistOK -ne $true){
-                    Write-Host "Registry path does not exist: $regPath\$($keyInfo.key)" -ForegroundColor Yellow
-                    $errorCount++
-                }   
-            }
+            
+            $results
+        }).AddArgument($path).AddArgument($currentUserSID).AddArgument($keyInfoArray)
+        
+        $powershell.RunspacePool = $runspacePool
+        
+        $jobs += @{
+            PowerShell = $powershell
+            Handle = $powershell.BeginInvoke()
         }
     }
+    
+    # Process results as they complete
+    foreach ($job in $jobs) {
+        $results = $job.PowerShell.EndInvoke($job.Handle)
+        foreach ($result in $results) {
+            if ($result.Error) {
+                Write-Host "Registry path does not exist: $($result.Path)\$($result.Key)" -ForegroundColor Yellow
+                $errorCount++
+            }
+            else {
+                Write-Host "Discrepancy found in $($result.Path)" -ForegroundColor Red
+                Write-Host "  Key: $($result.Key)" -ForegroundColor Red
+                Write-Host "  Current Value: $($result.CurrentValue)" -ForegroundColor Red
+                Write-Host "  Expected Value: $($result.ExpectedValue)" -ForegroundColor Red
+                $errorCount++
+            }
+        }
+        $job.PowerShell.Dispose()
+    }
+    
+    # Clean up
+    $runspacePool.Close()
+    $runspacePool.Dispose()
+    
     return $errorCount
 }
 #
@@ -1423,3 +1451,6 @@ $Results += [PSCustomObject]@{ Section = "Overall Total"; Percentage = $TotalPer
 
 # Output the table
 $Results | Format-Table -AutoSize
+$endTime = Get-Date
+$duration = $endTime - $startTime
+Write-Output "Total execution time: $duration"

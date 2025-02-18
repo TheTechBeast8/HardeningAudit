@@ -19,7 +19,7 @@
   GPOs - GPOs to delploy the CIS standards are located in the related versions GPO folder. You can get into group policy manager and restore them from backup
   Deployments scripts - if you prefer to deploy them via scripts i have those in the related version Deployment Scripts folder.
   Reports - The report to show you your compliance score and to tell you what configurations are missing.
-
+  
 ## Finished Benchmarks/Audits:
   - CIS Microsoft Windows 10 Stand-alone Benchmark v3.0.0
   - CIS Microsoft Windows 11 Stand-alone Benchmark v3.0.0
