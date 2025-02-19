@@ -1,4 +1,5 @@
-﻿#Set the path for the secedit into windows temp as its doesnt need to be retained
+﻿$startTime = Get-Date
+#Set the path for the secedit into windows temp as its doesnt need to be retained
 $seceditPath = Join-Path -Path $env:TEMP -ChildPath 'secedit.inf'
 #export the file from secedit to the set path 
 secedit.exe /export /cfg $seceditPath | Out-Null
@@ -21,7 +22,7 @@ $L1Section2 = @{
         @{ 'key' = 'ObCaseInsensitive'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' = @(
-        @{ 'key' = 'PasswordExpiryWarning'; 'range' = 'exact'; 'value' = 5,6,7,8,9,10,11,12,13,14 },
+        @{ 'key' = 'PasswordExpiryWarning'; 'type' = 'range'; 'value' = 5,6,7,8,9,10,11,12,13,14 },
         @{ 'key' = 'ScRemoveOption'; 'type' = 'range'; 'value' = 1,2,3 }
     )
     'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters' = @(
@@ -1437,3 +1438,6 @@ $Results += [PSCustomObject]@{ Section = "Overall Total"; Percentage = $TotalPer
 
 # Output the table
 $Results | Format-Table -AutoSize
+$endTime = Get-Date
+$duration = $endTime - $startTime
+Write-Output "Total execution time: $duration"

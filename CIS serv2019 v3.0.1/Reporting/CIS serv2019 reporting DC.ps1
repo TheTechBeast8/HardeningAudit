@@ -1,3 +1,4 @@
+$startTime = Get-Date
 #Set the path for the secedit into windows temp as its doesnt need to be retained
 $seceditPath = Join-Path -Path $env:TEMP -ChildPath 'secedit.inf'
 #export the file from secedit to the set path 
@@ -9,10 +10,6 @@ if(-not $AdminPriv){
 	throw "Administrator privileges required!"
 }
 # Check if the system is a Domain Controller by querying the domain role
-$domainRole = (Get-WmiObject Win32_ComputerSystem).DomainRole
-if ($domainRole -eq 4 -or $domainRole -eq 5) {
-    global:$IsDC = $true
-}
 $L1Section2DC = @{
     'HKLM\SYSTEM\CurrentControlSet\Services\NTDS\Parameters' = @(
         @{ 'key' = 'LDAPServerIntegrity'; 'type' = 'exact'; 'value' = 2 },
@@ -30,22 +27,6 @@ $L1Section2DC = @{
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters' = @(
         @{ 'key' = 'RefusePasswordChange'; 'type' = 'exact'; 'value' = 0 }
-    )
-}
-$L1Section2MS = @{
-    'HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters' = @(
-        @{ 'key' = 'NullSessionPipes'; 'type' = 'exact'; 'value' = 0 },
-        @{ 'key' = 'SMBServerNameHardeningLevel'; 'type' = 'exact'; 'value' = 1 }
-    )
-    'HKLM\SYSTEM\CurrentControlSet\Control\Lsa' = @(
-        @{ 'key' = 'RestrictAnonymousSAM'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'RestrictAnonymous'; 'type' = 'exact'; 'value' = 1 }
-    )
-    'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa' = @(
-        @{ 'key' = 'restrictremotesam'; 'type' = 'exact'; 'value' = "O:BAG:BAD:(A;;RC;;;BA)" }
-    )
-    'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' = @(
-        @{ 'key' = 'ForceUnlockLogon'; 'type' = 'exact'; 'value' = 1 }
     )
 }
 $L1Section2MSDC = @{
@@ -192,30 +173,6 @@ $L1Section9MSDC = @{
         @{ 'key' = 'AllowLocalIPsecPolicyMerge'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'DefaultInboundAction'; 'type' = 'exact'; 'value' = 1 },
         @{ 'key' = 'AllowLocalPolicyMerge'; 'type' = 'exact'; 'value' = 0 }
-    )
-}
-$L1Section18MS = @{
-    'HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Rpc' = @(
-        @{ 'key' = 'EnableAuthEpResolution'; 'type' = 'exact'; 'value' = 1 }
-    )
-    'HKLM\SOFTWARE\Policies\Microsoft\Windows\System' = @(
-        @{ 'key' = 'EnumerateLocalUsers'; 'type' = 'exact'; 'value' = 0 }
-    )
-    'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' = @(
-        @{ 'key' = 'LocalAccountTokenFilterPolicy'; 'type' = 'exact'; 'value' = 0 }
-    )
-    'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\LAPS' = @(
-        @{ 'key' = 'PasswordComplexity'; 'type' = 'exact'; 'value' = 4 },
-        @{ 'key' = 'PasswordAgeDays'; 'type' = 'exact'; 'value' = 30 },
-        @{ 'key' = 'ADPasswordEncryptionEnabled'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'BackupDirectory'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'PwdExpirationProtectionEnabled'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'PostAuthenticationResetDelay'; 'type' = 'exact'; 'value' = 8 },
-        @{ 'key' = 'PasswordLength'; 'type' = 'exact'; 'value' = 15 },
-        @{ 'key' = 'PostAuthenticationActions'; 'type' = 'exact'; 'value' = 3 }
-    )
-    'HKLM\SOFTWARE\Policies\Microsoft\W32Time\TimeProviders\NtpServer' = @(
-        @{ 'key' = 'Enabled'; 'type' = 'exact'; 'value' = 0 }
     )
 }
 $L1Section18DC = @{
@@ -557,30 +514,9 @@ $L1Section19MSDC = @{
         @{ 'key' = 'NoToastApplicationNotificationOnLockScreen'; 'type' = 'exact'; 'value' = 1 }
     )
 }
-$L2Section2MS = @{
-    'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' = @(
-        @{ 'key' = 'CachedLogonsCount'; 'type' = 'exact'; 'value' = 2 }
-    )
-}
 $L2Section2MSDC = @{
     'HKLM\SYSTEM\CurrentControlSet\Control\Lsa' = @(
         @{ 'key' = 'DisableDomainCreds'; 'type' = 'exact'; 'value' = 1 }
-    )
-}
-$L2Section5MS = @{
-    'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Spooler' = @(
-        @{ 'key' = 'Start'; 'type' = 'exact'; 'value' = 4 }
-    )
-}
-$L2Section18MS = @{
-    'HKLM\SOFTWARE\Policies\Microsoft\Windows\WcmSvc\GroupPolicy' = @(
-        @{ 'key' = 'fBlockNonDomain'; 'type' = 'exact'; 'value' = 1 }
-    )
-    'HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Rpc' = @(
-        @{ 'key' = 'RestrictRemoteClients'; 'type' = 'exact'; 'value' = 1 }
-    )
-    'HKLM\Software\Policies\Microsoft\Windows NT\Printers' = @(
-        @{ 'key' = 'RegisterSpoolerRemoteRpcEndPoint'; 'type' = 'exact'; 'value' = 2 }
     )
 }
 $L2Section18MSDC = @{
@@ -763,12 +699,6 @@ $NGSection18DC = @{
         @{ 'key' = 'LsaCfgFlags'; 'type' = 'exact'; 'value' = 0 }
     )
 }
-$NGSection18MS = @{
-    'HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard' = @(
-        @{ 'key' = 'HVCIMATRequired'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'LsaCfgFlags'; 'type' = 'exact'; 'value' = 1 }
-    )
-}
 $NGSection18MSDC = @{
     'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard' = @(
         @{ 'key' = 'RequirePlatformSecurityFeatures'; 'type' = 'exact'; 'value' = 3 }
@@ -802,6 +732,26 @@ function Format-Secedit {
     #return the dictionary
     return $secedit
 }
+function Format-UserRights {
+    param (
+        [Parameter(Mandatory = $true)]
+        [hashtable]$secedit
+    )
+    # Initialize the hashtable
+    $UserRights = @{}
+    
+    # Loop through each key in the "Privilege Rights" section
+    foreach ($key in $secedit["Privilege Rights"].Keys) {
+        # Split the value by comma, trim whitespace, and exclude null entries
+        $accounts = ($secedit["Privilege Rights"][$key] -split ",").Trim() | Where-Object { $_ -ne $null -and $_ -ne "" }
+        
+        # Convert the array of accounts to a comma-separated string
+        $UserRights[$key] = $accounts -join ", "
+    }
+    
+    # Return the hashtable
+    return $UserRights
+}
 function Convert-SidToFriendlyName {
     param (
         [Parameter(Mandatory = $true)]
@@ -833,7 +783,6 @@ function Convert-SidToFriendlyName {
         return $sid
     }
 }
-##Still need to review
 function Compare-UserRights {
     param (
         [Parameter(Mandatory = $true)]
@@ -894,7 +843,7 @@ function Compare-UserRights {
         } | Sort-Object | Out-String -Stream
         return ($format -join ", ").Trim()
     }
-    If (global:$IsDC = $true){
+    If ($global:IsDC -eq $true){
     #loop through the expected rights table 
     foreach ($key in $expectedDCRights.Keys) {
         #collect the current value when "noone" is confiugred it doesnt have they key in the secedit file so we slap a null so that it can still be evaluated
@@ -932,7 +881,6 @@ function Compare-UserRights {
     }
     return $errorCount
 }
-##Still need to review
 function Compare-Sec-Acc-Policies {
     param (
         [Parameter(Mandatory = $true)]
@@ -1127,7 +1075,7 @@ function Compare-Audit-Policies{
     }
     # Initialize an error counter
         $errorCount = 0
-        IF (global:$IsDC = $true){
+        IF ($global:IsDC -eq $true){
         # Loop through the expected audit policies
         foreach ($key in $expectedDCAuditPolicies.Keys) {
             # Run auditpol to get the current setting for the subcategory
@@ -1178,7 +1126,6 @@ function Compare-Audit-Policies{
         # Return the total number of errors found
         return $errorCount
 }
-##Still need to review
 function Compare-RegistryKeys {
     param (
         [Parameter(Mandatory = $true)]
@@ -1270,7 +1217,7 @@ function Compare-RegistryKeys {
                 #the catch for all the errors in the current value lookup land here 
                 #if the type is not noexistOK then it increments the error count
                 #if it is noexistOK then nothing happnes as its fine it doesnt exist 
-                If ($keyInfo.type -ne "noexistOK"){
+                If ($keyInfo.noexistOK -ne $true){
                     Write-Host "Registry path does not exist: $regPath\$($keyInfo.key)" -ForegroundColor Yellow
                     $errorCount++
                 }    
@@ -1295,22 +1242,16 @@ $UserRightsErrors = Compare-UserRights -currentRights $UserRights
 $SecAccErrors = Compare-Sec-Acc-Policies -secedit $secedit
 $AuditPolicyErrors = Compare-Audit-Policies
 $L1Section2DCErrors = Compare-RegistryKeys -RegistryConfig $L1Section2DC
-$L1Section2MSErrors = Compare-RegistryKeys -RegistryConfig $L1Section2MS
 $L1Section2MSDCErrors = Compare-RegistryKeys -RegistryConfig $L1Section2MSDC
 $L1Section5DCErrors = Compare-RegistryKeys -RegistryConfig $L1Section5DC
 $L1Section9MSDCErrors = Compare-RegistryKeys -RegistryConfig $L1Section9MSDC
-$L1Section18MSErrors = Compare-RegistryKeys -RegistryConfig $L1Section18MS
 $L1Section18DCErrors = Compare-RegistryKeys -RegistryConfig $L1Section18DC
 $L1Section18MSDCErrors = Compare-RegistryKeys -RegistryConfig $L1Section18MSDC
 $L1Section19MSDCErrors = Compare-RegistryKeys -RegistryConfig $L1Section19MSDC
-$L2Section2MSErrors = Compare-RegistryKeys -RegistryConfig $L2Section2MS
 $L2Section2MSDCErrors = Compare-RegistryKeys -RegistryConfig $L2Section2MSDC
-$L2Section5MSErrors = Compare-RegistryKeys -RegistryConfig $L2Section5MS
-$L2Section18MSErrors = Compare-RegistryKeys -RegistryConfig $L2Section18MS
 $L2Section18MSDCErrors = Compare-RegistryKeys -RegistryConfig $L2Section18MSDC
 $L2Section19MSDCErrors = Compare-RegistryKeys -RegistryConfig $L2Section19MSDC
 $NGSection18DCErrors = Compare-RegistryKeys -RegistryConfig $NGSection18DC
-$NGSection18MSErrors = Compare-RegistryKeys -RegistryConfig $NGSection18MS
 $NGSection18MSDCErrors = Compare-RegistryKeys -RegistryConfig $NGSection18MSDC
 #create a total possible controls array
 
@@ -1326,171 +1267,85 @@ function GetPercentage {
 # Collect all the percentages
 
 # Create a table with the results
-IF (global:$IsDC = $true)  {
-    $PossibleDCAnswers = @{
-        UserRights = 39
-        SecAcc = 15
-        AuditPolicy = 34
-        L1Section2DC = 7
-        L1Section2MSDC = 54
-        L1Section5DC = 1
-        L1Section9MSDC = 23
-        L1Section18DC = 1
-        L1Section18MSDC = 154
-        L1Section19MSDC = 8
-        L2Section2MSDC = 1
-        L2Section18MSDC = 69
-        L2Section19MSDC = 4
-        NGSection18DC = 1
-        NGSection18MSDC = 5
-    }
-
-    $Percentages = @{
-        UserRights = GetPercentage $UserRightsErrors $PossibleDCAnswers.UserRights
-        SecAcc = GetPercentage $SecAccErrors $PossibleDCAnswers.SecAcc
-        AuditPolicy = GetPercentage $AuditPolicyErrors $PossibleDCAnswers.AuditPolicy
-        L1Section2DC = GetPercentage $L1Section2DCErrors $PossibleDCAnswers.L1Section2DC
-        L1Section2MSDC = GetPercentage $L1Section2MSDCErrors $PossibleDCAnswers.L1Section2MSDC
-        L1Section5DC = GetPercentage $L1Section5DCErrors $PossibleDCAnswers.L1Section5DC
-        L1Section9MSDC = GetPercentage $L1Section9MSDCErrors $PossibleDCAnswers.L1Section9MSDC
-        L1Section18DC = GetPercentage $L1Section18DCErrors $PossibleDCAnswers.L1Section18DC
-        L1Section18MSDC = GetPercentage $L1Section18MSDCErrors $PossibleDCAnswers.L1Section18MSDC
-        L1Section19MSDC = GetPercentage $L1Section19MSDCErrors $PossibleDCAnswers.L1Section19MSDC
-        L2Section2MSDC = GetPercentage $L2Section2MSDCErrors $PossibleDCAnswers.L2Section2MSDC
-        L2Section18MSDC = GetPercentage $L2Section18MSDCErrors $PossibleDCAnswers.L2Section18MSDC
-        L2Section19MSDC = GetPercentage $L2Section19MSDCErrors $PossibleDCAnswers.L2Section19MSDC
-        NGSection18DC = GetPercentage $NGSection18DCErrors $PossibleDCAnswers.NGSection18DC
-        NGSection18MSDC = GetPercentage $NGSection18MSDCErrors $PossibleDCAnswers.NGSection18MSDC
-    }
-    # Calculate L1, L2, and Total percentages
-    $L1TotalErrors = $L1Section2DCErrors + $L1Section2MSDCErrors + $L1Section5DCErrors + $L1Section9MSDCErrors + $L1Section18DCErrors + $L1Section18MSDCErrors + $L1Section19MSDCErrors
-    $L1TotalPossible = $PossibleDCAnswers.L1Section2DC + $PossibleDCAnswers.L1Section2MSDC + $PossibleDCAnswers.L1Section5DC + $PossibleDCAnswers.L1Section9MSDC + $PossibleDCAnswers.L1Section18DC + $PossibleDCAnswers.L1Section18MSDC + $PossibleDCAnswers.L1Section19MSDC
-    $L1Percentage = GetPercentage $L1TotalErrors $L1TotalPossible
-
-    $L2TotalErrors = $L2Section2MSDCErrors + $L2Section18MSDCErrors + $L2Section19MSDCErrors
-    $L2TotalPossible = $PossibleDCAnswers.L2Section2MSDC + $PossibleDCAnswers.L2Section18MSDC + $PossibleDCAnswers.L2Section19MSDC
-    $L2Percentage = GetPercentage $L2TotalErrors $L2TotalPossible
-
-    $NGTotalErrors = $NGSection18DC + $NGSection18MSDC
-    $NGTotalPossible = $PossibleDCAnswers.NGSection18DC + $PossibleDCAnswers.NGSection18MSDC
-    $NGPercentage = GetPercentage $NGTotalErrors $NGTotalPossible
-
-
-    # Calculate DC total percentage (include DC and MSDC)
-    $DCTotalErrors = $L1Section2DCErrors + $L1Section5DCErrors + $L1Section18DCErrors + $NGSection18DCErrors +
-    $L1Section2MSDCErrors + $L1Section9MSDCErrors + $L1Section18MSDCErrors + $L1Section19MSDCErrors + $L2Section2MSDCErrors + $L2Section18MSDCErrors + $L2Section19MSDCErrors + $NGSection18MSDCErrors
-    $DCTotalPossible = $PossibleDCAnswers.L1Section2DC + $PossibleDCAnswers.L1Section5DC + $PossibleDCAnswers.L1Section18DC + $PossibleDCAnswers.NGSection18DC +
-    $PossibleDCAnswers.L1Section2MSDC + $PossibleDCAnswers.L1Section9MSDC + $PossibleDCAnswers.L1Section18MSDC + $PossibleDCAnswers.L1Section19MSDC + $PossibleDCAnswers.L2Section2MSDC + $PossibleDCAnswers.L2Section18MSDC + $PossibleDCAnswers.L2Section19MSDC + $PossibleDCAnswers.NGSection18MSDC
-    $DCPercentage = GetPercentage $DCTotalErrors $DCTotalPossible
-
-    $Results = @()
-    $Results += [PSCustomObject]@{ Section = "User Rights"; Percentage = $Percentages.UserRights }
-    $Results += [PSCustomObject]@{ Section = "Sec Acc"; Percentage = $Percentages.SecAcc }
-    $Results += [PSCustomObject]@{ Section = "Audit Policy"; Percentage = $Percentages.AuditPolicy }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 2 DC"; Percentage = $Percentages.L1Section2DC }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 2 MS DC"; Percentage = $Percentages.L1Section2MSDC }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 5 DC"; Percentage = $Percentages.L1Section5DC }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 9 MS DC"; Percentage = $Percentages.L1Section9MSDC }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 18 DC"; Percentage = $Percentages.L1Section18DC }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 18 MS DC"; Percentage = $Percentages.L1Section18MSDC }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 19 MS DC"; Percentage = $Percentages.L1Section19MSDC }
-    $Results += [PSCustomObject]@{ Section = "L2 Section 2 MS DC"; Percentage = $Percentages.L2Section2MSDC }
-    $Results += [PSCustomObject]@{ Section = "L2 Section 18 MS DC"; Percentage = $Percentages.L2Section18MSDC }
-    $Results += [PSCustomObject]@{ Section = "L2 Section 19 MS DC"; Percentage = $Percentages.L2Section19MSDC }
-    $Results += [PSCustomObject]@{ Section = "Next Gen Section 18 DC"; Percentage = $Percentages.NGSection18DC }
-    $Results += [PSCustomObject]@{ Section = "Next Gen Section 18 MS DC"; Percentage = $Percentages.NGSection18MSDC }
-    $Results += [PSCustomObject]@{ Section = "L1 Total"; Percentage = $L1Percentage }
-    $Results += [PSCustomObject]@{ Section = "L2 Total"; Percentage = $L2Percentage }
-    $Results += [PSCustomObject]@{ Section = "NG Total"; Percentage = $NGPercentage }
-    $Results += [PSCustomObject]@{ Section = "DC Total"; Percentage = $DCPercentage }
+$PossibleDCAnswers = @{
+    UserRights = 39
+    SecAcc = 15
+    AuditPolicy = 34
+    L1Section2DC = 7
+    L1Section2MSDC = 54
+    L1Section5DC = 1
+    L1Section9MSDC = 23
+    L1Section18DC = 1
+    L1Section18MSDC = 154
+    L1Section19MSDC = 8
+    L2Section2MSDC = 1
+    L2Section18MSDC = 69
+    L2Section19MSDC = 4
+    NGSection18DC = 1
+    NGSection18MSDC = 5
 }
-else {
-    $PossibleAnswers = @{
-        UserRights = 39
-        SecAcc = 15
-        AuditPolicy = 27
-        L1Section2MS = 6
-        L1Section2MSDC = 54
-        L1Section9MSDC = 23
-        L1Section18MS = 12
-        L1Section18MSDC = 154
-        L1Section19MSDC = 8
-        L2Section2MS = 1
-        L2Section2MSDC = 1
-        L2Section5MS = 1
-        L2Section18MS = 3
-        L2Section18MSDC = 69
-        L2Section19MSDC = 4
-        NGSection18MS = 2
-        NGSection18MSDC = 5
-    }
 
-    $Percentages = @{
-        UserRights = GetPercentage $UserRightsErrors $PossibleAnswers.UserRights
-        SecAcc = GetPercentage $SecAccErrors $PossibleAnswers.SecAcc
-        AuditPolicy = GetPercentage $AuditPolicyErrors $PossibleAnswers.AuditPolicy
-        L1Section2MS = GetPercentage $L1Section2MSErrors $PossibleAnswers.L1Section2MS
-        L1Section2MSDC = GetPercentage $L1Section2MSDCErrors $PossibleAnswers.L1Section2MSDC
-        L1Section9MSDC = GetPercentage $L1Section9MSDCErrors $PossibleAnswers.L1Section9MSDC
-        L1Section18MS = GetPercentage $L1Section18MSErrors $PossibleAnswers.L1Section18MS
-        L1Section18MSDC = GetPercentage $L1Section18MSDCErrors $PossibleAnswers.L1Section18MSDC
-        L1Section19MSDC = GetPercentage $L1Section19MSDCErrors $PossibleAnswers.L1Section19MSDC
-        L2Section2MS = GetPercentage $L2Section2MSErrors $PossibleAnswers.L2Section2MS
-        L2Section2MSDC = GetPercentage $L2Section2MSDCErrors $PossibleAnswers.L2Section2MSDC
-        L2Section5MS = GetPercentage $L2Section5MSErrors $PossibleAnswers.L2Section5MS
-        L2Section18MS = GetPercentage $L2Section18MSErrors $PossibleAnswers.L2Section18MS
-        L2Section18MSDC = GetPercentage $L2Section18MSDCErrors $PossibleAnswers.L2Section18MSDC
-        L2Section19MSDC = GetPercentage $L2Section19MSDCErrors $PossibleAnswers.L2Section19MSDC
-        NGSection18MS = GetPercentage $NGSection18MSErrors $PossibleAnswers.NGSection18MS
-        NGSection18MSDC = GetPercentage $NGSection18MSDCErrors $PossibleAnswers.NGSection18MSDC
-    }
-
-
-    # Calculate L1, L2, and Total percentages
-    $L1TotalErrors = $L1Section2MSErrors + $L1Section2MSDCErrors + $L1Section9MSDCErrors + $L1Section18MSErrors + $L1Section18MSDCErrors + $L1Section19MSDCErrors
-    $L1TotalPossible = $PossibleAnswers.L1Section2MS + $PossibleAnswers.L1Section2MSDC + $PossibleAnswers.L1Section9MSDC + $PossibleAnswers.L1Section18MS + $PossibleAnswers.L1Section18MSDC + $PossibleAnswers.L1Section19MSDC
-    $L1Percentage = GetPercentage $L1TotalErrors $L1TotalPossible
-
-    $L2TotalErrors = $L2Section2MSErrors + $L2Section2MSDCErrors + $L2Section5MSErrors + $L2Section18MSErrors + $L2Section18MSDCErrors + $L2Section19MSDCErrors
-    $L2TotalPossible = $PossibleAnswers.L2Section2MS + $PossibleAnswers.L2Section2MSDC + $PossibleAnswers.L2Section5MS + $PossibleAnswers.L2Section18MS + $PossibleAnswers.L2Section18MSDC + $PossibleAnswers.L2Section19MSDC
-    $L2Percentage = GetPercentage $L2TotalErrors $L2TotalPossible
-
-    $NGTotalErrors = $NGSection18MS + $NGSection18MSDC
-    $NGTotalPossible = $PossibleAnswers.NGSection18MS + $PossibleAnswers.NGSection18MSDC
-    $NGPercentage = GetPercentage $NGTotalErrors $NGTotalPossible
-
-    # Calculate MS total percentage (include MS and MSDC)
-    $MSTotalErrors = $L1Section2MSErrors + $L1Section18MSErrors + $L2Section2MSErrors + $L2Section5MSErrors + $L2Section18MSErrors + $NGSection18MSErrors +
-    $L1Section2MSDCErrors + $L1Section9MSDCErrors + $L1Section18MSDCErrors + $L1Section19MSDCErrors + $L2Section2MSDCErrors + $L2Section18MSDCErrors + $L2Section19MSDCErrors + $NGSection18MSDCErrors
-    $MSTotalPossible = $PossibleAnswers.L1Section2MS + $PossibleAnswers.L1Section18MS + $PossibleAnswers.L2Section2MS + $PossibleAnswers.L2Section5MS + $PossibleAnswers.L2Section18MS + $PossibleAnswers.NGSection18MS +
-    $PossibleAnswers.L1Section2MSDC + $PossibleAnswers.L1Section9MSDC + $PossibleAnswers.L1Section18MSDC + $PossibleAnswers.L1Section19MSDC + $PossibleAnswers.L2Section2MSDC + $PossibleAnswers.L2Section18MSDC + $PossibleAnswers.L2Section19MSDC + $PossibleAnswers.NGSection18MSDC
-    $MSPercentage = GetPercentage $MSTotalErrors $MSTotalPossible
-
-    $Results = @()
-    $Results += [PSCustomObject]@{ Section = "User Rights"; Percentage = $Percentages.UserRights }
-    $Results += [PSCustomObject]@{ Section = "Sec Acc"; Percentage = $Percentages.SecAcc }
-    $Results += [PSCustomObject]@{ Section = "Audit Policy"; Percentage = $Percentages.AuditPolicy }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 2 MS"; Percentage = $Percentages.L1Section2MS }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 2 MS DC"; Percentage = $Percentages.L1Section2MSDC }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 9 MS DC"; Percentage = $Percentages.L1Section9MSDC }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 18 MS"; Percentage = $Percentages.L1Section18MS }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 18 MS DC"; Percentage = $Percentages.L1Section18MSDC }
-    $Results += [PSCustomObject]@{ Section = "L1 Section 19 MS DC"; Percentage = $Percentages.L1Section19MSDC }
-    $Results += [PSCustomObject]@{ Section = "L2 Section 2 MS"; Percentage = $Percentages.L2Section2MS }
-    $Results += [PSCustomObject]@{ Section = "L2 Section 2 MS DC"; Percentage = $Percentages.L2Section2MSDC }
-    $Results += [PSCustomObject]@{ Section = "L2 Section 5 MS"; Percentage = $Percentages.L2Section5MS }
-    $Results += [PSCustomObject]@{ Section = "L2 Section 18 MS"; Percentage = $Percentages.L2Section18MS }
-    $Results += [PSCustomObject]@{ Section = "L2 Section 18 MS DC"; Percentage = $Percentages.L2Section18MSDC }
-    $Results += [PSCustomObject]@{ Section = "L2 Section 19 MS DC"; Percentage = $Percentages.L2Section19MSDC }
-    $Results += [PSCustomObject]@{ Section = "Next Gen Section 18 MS"; Percentage = $Percentages.NGSection18MS }
-    $Results += [PSCustomObject]@{ Section = "Next Gen Section 18 MS DC"; Percentage = $Percentages.NGSection18MSDC }
-    $Results += [PSCustomObject]@{ Section = "L1 Total"; Percentage = $L1Percentage }
-    $Results += [PSCustomObject]@{ Section = "L2 Total"; Percentage = $L2Percentage }
-    $Results += [PSCustomObject]@{ Section = "NG Total"; Percentage = $NGPercentage }
-    $Results += [PSCustomObject]@{ Section = "MS Total"; Percentage = $MSPercentage }
+$Percentages = @{
+    UserRights = GetPercentage $UserRightsErrors $PossibleDCAnswers.UserRights
+    SecAcc = GetPercentage $SecAccErrors $PossibleDCAnswers.SecAcc
+    AuditPolicy = GetPercentage $AuditPolicyErrors $PossibleDCAnswers.AuditPolicy
+    L1Section2DC = GetPercentage $L1Section2DCErrors $PossibleDCAnswers.L1Section2DC
+    L1Section2MSDC = GetPercentage $L1Section2MSDCErrors $PossibleDCAnswers.L1Section2MSDC
+    L1Section5DC = GetPercentage $L1Section5DCErrors $PossibleDCAnswers.L1Section5DC
+    L1Section9MSDC = GetPercentage $L1Section9MSDCErrors $PossibleDCAnswers.L1Section9MSDC
+    L1Section18DC = GetPercentage $L1Section18DCErrors $PossibleDCAnswers.L1Section18DC
+    L1Section18MSDC = GetPercentage $L1Section18MSDCErrors $PossibleDCAnswers.L1Section18MSDC
+    L1Section19MSDC = GetPercentage $L1Section19MSDCErrors $PossibleDCAnswers.L1Section19MSDC
+    L2Section2MSDC = GetPercentage $L2Section2MSDCErrors $PossibleDCAnswers.L2Section2MSDC
+    L2Section18MSDC = GetPercentage $L2Section18MSDCErrors $PossibleDCAnswers.L2Section18MSDC
+    L2Section19MSDC = GetPercentage $L2Section19MSDCErrors $PossibleDCAnswers.L2Section19MSDC
+    NGSection18DC = GetPercentage $NGSection18DCErrors $PossibleDCAnswers.NGSection18DC
+    NGSection18MSDC = GetPercentage $NGSection18MSDCErrors $PossibleDCAnswers.NGSection18MSDC
 }
+# Calculate L1, L2, and Total percentages
+$L1TotalErrors = $L1Section2DCErrors + $L1Section2MSDCErrors + $L1Section5DCErrors + $L1Section9MSDCErrors + $L1Section18DCErrors + $L1Section18MSDCErrors + $L1Section19MSDCErrors
+$L1TotalPossible = $PossibleDCAnswers.L1Section2DC + $PossibleDCAnswers.L1Section2MSDC + $PossibleDCAnswers.L1Section5DC + $PossibleDCAnswers.L1Section9MSDC + $PossibleDCAnswers.L1Section18DC + $PossibleDCAnswers.L1Section18MSDC + $PossibleDCAnswers.L1Section19MSDC
+$L1Percentage = GetPercentage $L1TotalErrors $L1TotalPossible
+
+$L2TotalErrors = $L2Section2MSDCErrors + $L2Section18MSDCErrors + $L2Section19MSDCErrors
+$L2TotalPossible = $PossibleDCAnswers.L2Section2MSDC + $PossibleDCAnswers.L2Section18MSDC + $PossibleDCAnswers.L2Section19MSDC
+$L2Percentage = GetPercentage $L2TotalErrors $L2TotalPossible
+
+$NGTotalErrors = $NGSection18DC + $NGSection18MSDC
+$NGTotalPossible = $PossibleDCAnswers.NGSection18DC + $PossibleDCAnswers.NGSection18MSDC
+$NGPercentage = GetPercentage $NGTotalErrors $NGTotalPossible
+
+
+# Calculate DC total percentage (include DC and MSDC)
+$DCTotalErrors = $L1Section2DCErrors + $L1Section5DCErrors + $L1Section18DCErrors + $NGSection18DCErrors +
+$L1Section2MSDCErrors + $L1Section9MSDCErrors + $L1Section18MSDCErrors + $L1Section19MSDCErrors + $L2Section2MSDCErrors + $L2Section18MSDCErrors + $L2Section19MSDCErrors + $NGSection18MSDCErrors
+$DCTotalPossible = $PossibleDCAnswers.L1Section2DC + $PossibleDCAnswers.L1Section5DC + $PossibleDCAnswers.L1Section18DC + $PossibleDCAnswers.NGSection18DC +
+$PossibleDCAnswers.L1Section2MSDC + $PossibleDCAnswers.L1Section9MSDC + $PossibleDCAnswers.L1Section18MSDC + $PossibleDCAnswers.L1Section19MSDC + $PossibleDCAnswers.L2Section2MSDC + $PossibleDCAnswers.L2Section18MSDC + $PossibleDCAnswers.L2Section19MSDC + $PossibleDCAnswers.NGSection18MSDC
+$DCPercentage = GetPercentage $DCTotalErrors $DCTotalPossible
+
+$Results = @()
+$Results += [PSCustomObject]@{ Section = "User Rights"; Percentage = $Percentages.UserRights }
+$Results += [PSCustomObject]@{ Section = "Sec Acc"; Percentage = $Percentages.SecAcc }
+$Results += [PSCustomObject]@{ Section = "Audit Policy"; Percentage = $Percentages.AuditPolicy }
+$Results += [PSCustomObject]@{ Section = "L1 Section 2 DC"; Percentage = $Percentages.L1Section2DC }
+$Results += [PSCustomObject]@{ Section = "L1 Section 2 MS DC"; Percentage = $Percentages.L1Section2MSDC }
+$Results += [PSCustomObject]@{ Section = "L1 Section 5 DC"; Percentage = $Percentages.L1Section5DC }
+$Results += [PSCustomObject]@{ Section = "L1 Section 9 MS DC"; Percentage = $Percentages.L1Section9MSDC }
+$Results += [PSCustomObject]@{ Section = "L1 Section 18 DC"; Percentage = $Percentages.L1Section18DC }
+$Results += [PSCustomObject]@{ Section = "L1 Section 18 MS DC"; Percentage = $Percentages.L1Section18MSDC }
+$Results += [PSCustomObject]@{ Section = "L1 Section 19 MS DC"; Percentage = $Percentages.L1Section19MSDC }
+$Results += [PSCustomObject]@{ Section = "L2 Section 2 MS DC"; Percentage = $Percentages.L2Section2MSDC }
+$Results += [PSCustomObject]@{ Section = "L2 Section 18 MS DC"; Percentage = $Percentages.L2Section18MSDC }
+$Results += [PSCustomObject]@{ Section = "L2 Section 19 MS DC"; Percentage = $Percentages.L2Section19MSDC }
+$Results += [PSCustomObject]@{ Section = "Next Gen Section 18 DC"; Percentage = $Percentages.NGSection18DC }
+$Results += [PSCustomObject]@{ Section = "Next Gen Section 18 MS DC"; Percentage = $Percentages.NGSection18MSDC }
+$Results += [PSCustomObject]@{ Section = "L1 Total"; Percentage = $L1Percentage }
+$Results += [PSCustomObject]@{ Section = "L2 Total"; Percentage = $L2Percentage }
+$Results += [PSCustomObject]@{ Section = "NG Total"; Percentage = $NGPercentage }
+$Results += [PSCustomObject]@{ Section = "DC Total"; Percentage = $DCPercentage }
+
 # Output the table
 $Results | Format-Table -AutoSize
-
-
-
+$endTime = Get-Date
+$duration = $endTime - $startTime
+Write-Output "Total execution time: $duration"
