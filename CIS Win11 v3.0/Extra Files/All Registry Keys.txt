@@ -102,7 +102,7 @@ HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\kernel:DisableExceptionCha
 HKLM\SYSTEM\CurrentControlSet\Services\NetBT\Parameters:NodeType 2
 HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest:UseLogonCredential 0
 HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon:AutoAdminLogon "0"
-HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters:DisableIPSourceRouting 0
+HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters:DisableIPSourceRouting 2
 HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters:DisableIPSourceRouting 2
 HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters:EnableICMPRedirect 0
 HKLM\SYSTEM\CurrentControlSet\Services\NetBT\Parameters:NoNameReleaseOnDemand 1
@@ -111,6 +111,7 @@ HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon:ScreenSaverGracePerio
 HKLM\SYSTEM\CurrentControlSet\Services\Eventlog\Security:WarningLevel 90##set to x<90
 HKLM\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation:AllowInsecureGuestAuth 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Network Connections:NC_AllowNetBridge_NLA 0
+HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate:AllowOptionalContent 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Network Connections:NC_ShowSharedAccessUI 0 
 HKLM\SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths:\\*\NETLOGON "RequireMutualAuthentication=1, RequireIntegrity=1, RequirePrivacy=1"
 HKLM\SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths:\\*\SYSVOL "RequireMutualAuthentication=1, RequireIntegrity=1, RequirePrivacy=1"
@@ -235,7 +236,7 @@ HKLM\SOFTWARE\Policies\Microsoft\WindowsStore:DisableOSUpgrade 1
 HKLM\SOFTWARE\Policies\Microsoft\Dsh:AllowNewsAndInterests 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\System:EnableSmartScreen 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\System:ShellSmartScreenLevel 1
-HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR:AllowGameDVR 1
+HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR:AllowGameDVR 0
 HKLM\SOFTWARE\Policies\Microsoft\WindowsInkWorkspace:AllowWindowsInkWorkspace 0##set to 0 or 1
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer:EnableUserControl 0
 HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer:AlwaysInstallElevated 0

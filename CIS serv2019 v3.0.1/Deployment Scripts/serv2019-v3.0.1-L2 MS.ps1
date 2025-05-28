@@ -41,8 +41,7 @@ $L1Section2MSDC = @{
         "SCENoApplyLegacyAuditPolicy" = 1
     }
     "HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedExactPaths" = @{
-        "Machine" = "System\CurrentControlSet\Control\ProductOptions System\CurrentControlSet\C
-ontrol\Server Applications Software\Microsoft\Windows NT\CurrentVersion"
+        "Machine" = "System\CurrentControlSet\Control\ProductOptions System\CurrentControlSet\Control\Server Applications Software\Microsoft\Windows NT\CurrentVersion"
     }
     "HKLM\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0" = @{
         "AllowNullSessionFallback" = 0
@@ -58,8 +57,7 @@ ontrol\Server Applications Software\Microsoft\Windows NT\CurrentVersion"
         "AddPrinterDrivers" = 1
     }
     "HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedPaths" = @{
-        "Machine" = "System\CurrentControlSet\Control\Print\Printers,System\CurrentControlSet\S
-ervices\Eventlog,Software\Microsoft\OLAP Server,Software\Microsoft\Windows NT\CurrentVersion\Pr
+        "Machine" = "System\CurrentControlSet\Control\Print\Printers,System\CurrentControlSet\Services\Eventlog,Software\Microsoft\OLAP Server,Software\Microsoft\Windows NT\CurrentVersion\Pr
 int,Software\Microsoft\Windows NT\CurrentVersion\Windows,System\CurrentControlSet\Control\Conte
 ntIndex,System\CurrentControlSet\Control\Terminal Server,System\CurrentControlSet\Control\Termi
 nal Server\UserConfig,System\CurrentControlSet\Control\Terminal Server\DefaultUserConfiguration

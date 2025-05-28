@@ -211,7 +211,8 @@ $L1Section18 = @{
         @{ 'key' = 'DeferQualityUpdatesPeriodInDays'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'AllowTemporaryEnterpriseFeatureControl'; 'type' = 'exact'; 'value' = 0 },
         @{ 'key' = 'SetDisablePauseUXAccess'; 'type' = 'exact'; 'value' = 1 },
-        @{ 'key' = 'DeferFeatureUpdatesPeriodInDays'; 'type' = 'comparison'; 'value' = "x -ge 180" }
+        @{ 'key' = 'DeferFeatureUpdatesPeriodInDays'; 'type' = 'comparison'; 'value' = "x -ge 180" },
+        @{ 'key' = 'AllowOptionalContent'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager' = @(
         @{ 'key' = 'SafeDllSearchMode'; 'type' = 'exact'; 'value' = 1 }
@@ -262,7 +263,7 @@ $L1Section18 = @{
         @{ 'key' = '75668c1f-73b5-4cf0-bb93-3ecf5cb7cc84'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters' = @(
-        @{ 'key' = 'DisableIPSourceRouting'; 'type' = 'exact'; 'value' = 0 }
+        @{ 'key' = 'DisableIPSourceRouting'; 'type' = 'exact'; 'value' = 2 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51' = @(
         @{ 'key' = 'DCSettingIndex'; 'type' = 'exact'; 'value' = 1 },
@@ -412,7 +413,7 @@ $L1Section18 = @{
         @{ 'key' = 'ProcessCreationIncludeCmdLine_Enabled'; 'type' = 'exact'; 'value' = 1 }
     )
     'HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR' = @(
-        @{ 'key' = 'AllowGameDVR'; 'type' = 'exact'; 'value' = 1 }
+        @{ 'key' = 'AllowGameDVR'; 'type' = 'exact'; 'value' = 0 }
     )
     'HKLM\SYSTEM\CurrentControlSet\Control\Print' = @(
         @{ 'key' = 'RpcAuthnLevelPrivacyEnabled'; 'type' = 'exact'; 'value' = 1 }

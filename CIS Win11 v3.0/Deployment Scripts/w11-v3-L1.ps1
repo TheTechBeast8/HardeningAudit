@@ -177,7 +177,7 @@ $L1Section18 = @{
         "EnumerateAdministrators" = 0
     }
     "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters" = @{
-        "DisableIPSourceRouting" = 0
+        "DisableIPSourceRouting" = 2
     }
     "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager" = @{
         "SafeDllSearchMode" = 1
@@ -338,6 +338,7 @@ $L1Section18 = @{
         "DeferFeatureUpdatesPeriodInDays" = 180
         "ManagePreviewBuildsPolicyValue" = 1
         "DeferFeatureUpdates" = 1
+        "AllowOptionalContent" = 0
     }
     "HKLM\SOFTWARE\Policies\Microsoft\Windows\CredUI" = @{
         "DisablePasswordReveal" = 1
@@ -406,7 +407,7 @@ $L1Section18 = @{
         "ProcessCreationIncludeCmdLine_Enabled" = 1
     }
     "HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR" = @{
-        "AllowGameDVR" = 1
+        "AllowGameDVR" = 0
     }
     "HKLM\SYSTEM\CurrentControlSet\Control\Print" = @{
         "RpcAuthnLevelPrivacyEnabled" = 1
