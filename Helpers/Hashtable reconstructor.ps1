@@ -7,6 +7,16 @@ function Convert-HashtableToComparison {
         [hashtable]$inputHashTable
     )
 
+    # Get the variable name from the call stack
+    $variableName = '$comparisons' # Default value
+    $callStack = Get-PSCallStack
+    if ($callStack.Count -gt 1) {
+        $callingCommand = $callStack[1].Position.Text
+        if ($callingCommand -match '\$(\w+)') {
+            $variableName = '$' + $matches[1]
+        }
+    }
+
     # Initialize the empty comparisons hashtable
     $comparisons = @{ }
 
@@ -38,7 +48,7 @@ function Convert-HashtableToComparison {
     }
 
     # Output the entire hashtable in a copyable format
-    Write-Host "`$comparisons = @{"
+    Write-Host "$variableName = @{"
     foreach ($path in $comparisons.Keys) {
         Write-Host "    '$path' = @("
 
@@ -60,9 +70,7 @@ function Convert-HashtableToComparison {
     Write-Host "}"
 }
 
-
-
-# Call the function with $L1Section1 as input
+# Call the function with the hashtables
 Convert-HashtableToComparison -inputHashTable $L1Section1
 Convert-HashtableToComparison -inputHashTable $L1Section2
 Convert-HashtableToComparison -inputHashTable $L1Section5

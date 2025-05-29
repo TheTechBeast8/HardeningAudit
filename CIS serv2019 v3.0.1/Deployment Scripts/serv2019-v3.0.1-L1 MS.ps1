@@ -41,8 +41,7 @@ $L1Section2MSDC = @{
         "SCENoApplyLegacyAuditPolicy" = 1
     }
     "HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedExactPaths" = @{
-        "Machine" = "System\CurrentControlSet\Control\ProductOptions System\CurrentControlSet\C
-ontrol\Server Applications Software\Microsoft\Windows NT\CurrentVersion"
+        "Machine" = "System\CurrentControlSet\Control\ProductOptions System\CurrentControlSet\Control\Server Applications Software\Microsoft\Windows NT\CurrentVersion"
     }
     "HKLM\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0" = @{
         "AllowNullSessionFallback" = 0
@@ -58,13 +57,7 @@ ontrol\Server Applications Software\Microsoft\Windows NT\CurrentVersion"
         "AddPrinterDrivers" = 1
     }
     "HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedPaths" = @{
-        "Machine" = "System\CurrentControlSet\Control\Print\Printers,System\CurrentControlSet\S
-ervices\Eventlog,Software\Microsoft\OLAP Server,Software\Microsoft\Windows NT\CurrentVersion\Pr
-int,Software\Microsoft\Windows NT\CurrentVersion\Windows,System\CurrentControlSet\Control\Conte
-ntIndex,System\CurrentControlSet\Control\Terminal Server,System\CurrentControlSet\Control\Termi
-nal Server\UserConfig,System\CurrentControlSet\Control\Terminal Server\DefaultUserConfiguration
-,Software\Microsoft\Windows NT\CurrentVersion\Perflib,System\CurrentControlSet\Services\SysmonL
-og,System\CurrentControlSet\Services\CertSvc,System\CurrentControlSet\Services\WINS"
+        "Machine" = "System\CurrentControlSet\Control\Print\Printers,System\CurrentControlSet\Services\Eventlog,Software\Microsoft\OLAP Server,Software\Microsoft\Windows NT\CurrentVersion\Print,Software\Microsoft\Windows NT\CurrentVersion\Windows,System\CurrentControlSet\Control\ContentIndex,System\CurrentControlSet\Control\Terminal Server,System\CurrentControlSet\Control\Terminal Server\UserConfig,System\CurrentControlSet\Control\Terminal Server\DefaultUserConfiguration,Software\Microsoft\Windows NT\CurrentVersion\Perflib,System\CurrentControlSet\Services\SysmonLog,System\CurrentControlSet\Services\CertSvc,System\CurrentControlSet\Services\WINS"
     }
     "HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters" = @{
         "EnablePlainTextPassword" = 0
@@ -252,8 +245,7 @@ $L1Section18MSDC = @{
         "NoLockScreenCamera" = 1
         "NoLockScreenSlideshow" = 1
     }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Group Policy\{35378EAC-683F-11D2-A89A-00C04FBBCFA
-2}" = @{
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Group Policy\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}" = @{
         "NoBackgroundPolicy" = 0
         "NoGPOListChanges" = 0
     }
@@ -288,7 +280,6 @@ $L1Section18MSDC = @{
         "fDisableCdm" = 1
     }
     "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR" = @{
-
         "ExploitGuard_ASR_Rules" = 1
     }
     "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" = @{
@@ -299,8 +290,7 @@ $L1Section18MSDC = @{
         "NoHeapTerminationOnCorruption" = 0
         "NoDataExecutionPrevention" = 0
     }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\Network P
-rotection" = @{
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\Network Protection" = @{
         "EnableNetworkProtection" = 1
     }
     "HKLM\SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths" = @{
@@ -341,8 +331,7 @@ rotection" = @{
         "MSAOptional" = 1
         "DisableBkGndGroupPolicy" = "does not exist"
     }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Group Policy\{827D319E-6EAC-11D2-A4EA-00C04F79F83
-A}" = @{
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Group Policy\{827D319E-6EAC-11D2-A4EA-00C04F79F83A}" = @{
         "NoBackgroundPolicy" = 0
         "NoGPOListChanges" = 0
     }
@@ -416,8 +405,7 @@ A}" = @{
     "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters" = @{
         "AllowEncryptionOracle" = 1
     }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protecti
-on" = @{
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection" = @{
         "DisallowExploitProtectionOverride" = 1
     }
     "HKLM\SYSTEM\CurrentControlSet\Services\NetBT\Parameters" = @{

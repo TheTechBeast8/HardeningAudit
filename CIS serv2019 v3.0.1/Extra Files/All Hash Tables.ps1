@@ -30,96 +30,89 @@ $L1Section2DC = @{
     }
 }
 $L1Section2MSDC = @{
-    "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" = @{
-        "NoConnectedUser" = 3
-        "DisableCAD" = 0
-        "DontDisplayLastUserName" = 1
-        "InactivityTimeoutSecs" = 900
-        "LegalNoticeText" = "Sample Text"
-        "LegalNoticeCaption" = "Sample Text"
-        "ShutdownWithoutLogon" = 0
-        "FilterAdministratorToken" = 1
-        "ConsentPromptBehaviorAdmin" = 1
-        "ConsentPromptBehaviorUser" = 0
-        "EnableInstallerDetection" = 1
-        "EnableSecureUIAPaths" = 1
-        "EnableLUA" = 1
-        "PromptOnSecureDesktop" = 1
-        "EnableVirtualization" = 1
+    "HKLM\SYSTEM\CurrentControlSet\Control\Lsa\pku2u" = @{
+        "AllowOnlineID" = 0
     }
-    "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" = @{
-        "LimitBlankPasswordUse" = 1
-        "SCENoApplyLegacyAuditPolicy" = 1
-        "CrashOnAuditFail" = 0
-        "TurnOffAnonymousBlock" = 1
-        "EveryoneIncludesAnonymous" = 0
-        "ForceGuest" = 0
-        "UseMachineId" = 1
-        "NoLMHash" = 1
-        "LmCompatibilityLevel" = 5
+    "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Kernel" = @{
+        "ObCaseInsensitive" = 1
     }
-    "HKLM\SYSTEM\CurrentControlSet\Control\Print\Providers\LanMan Print Services\Servers" = @{
-        "AddPrinterDrivers" = 1
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters" = @{
-        "RequireSignOrSeal" = 1
-        "SealSecureChannel" = 1
-        "SignSecureChannel" = 1
-        "DisablePasswordChange" = 0
-        "MaximumPasswordAge" = 30
-        "RequireStrongKey" = 1
+    "HKLM\SYSTEM\CurrentControlSet\Services\LDAP" = @{
+        "LDAPClientIntegrity" = 1
     }
     "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" = @{
         "PasswordExpiryWarning" = 14
         "ScRemoveOption" = 3
     }
-    "HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters" = @{
-        "RequireSecuritySignature" = 1
-        "EnableSecuritySignature" = 1
-        "EnablePlainTextPassword" = 0
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters" = @{
-        "AutoDisconnect" = 15
-        "RequireSecuritySignature" = 1
-        "EnableSecuritySignature" = 1
-        "enableforcedlogoff" = 1
-        "RestrictNullSessAccess" = 1
-        "NullSessionShares" = "<none>"
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedExactPaths" = @{
-        "Machine" = "System\CurrentControlSet\Control\ProductOptions System\CurrentControlSet\C
-ontrol\Server Applications Software\Microsoft\Windows NT\CurrentVersion"
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedPaths" = @{
-        "Machine" = "System\CurrentControlSet\Control\Print\Printers,System\CurrentControlSet\S
-ervices\Eventlog,Software\Microsoft\OLAP Server,Software\Microsoft\Windows NT\CurrentVersion\Pr
-int,Software\Microsoft\Windows NT\CurrentVersion\Windows,System\CurrentControlSet\Control\Conte
-ntIndex,System\CurrentControlSet\Control\Terminal Server,System\CurrentControlSet\Control\Termi
-nal Server\UserConfig,System\CurrentControlSet\Control\Terminal Server\DefaultUserConfiguration
-,Software\Microsoft\Windows NT\CurrentVersion\Perflib,System\CurrentControlSet\Services\SysmonL
-og,System\CurrentControlSet\Services\CertSvc,System\CurrentControlSet\Services\WINS"
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0" = @{
-        "AllowNullSessionFallback" = 0
-        "NTLMMinClientSec" = 537395200
-        "NTLMMinServerSec" = 537395200
-        "AuditReceivingNTLMTraffic" = 2
-        "RestrictSendingNTLMTraffic" = 2
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Control\Lsa\pku2u" = @{
-        "AllowOnlineID" = 0
-    }
     "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters" = @{
         "SupportedEncryptionTypes" = 2147483640
     }
-    "HKLM\SYSTEM\CurrentControlSet\Services\LDAP" = @{
-        "LDAPClientIntegrity" = 1
+    "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" = @{
+        "EveryoneIncludesAnonymous" = 0
+        "ForceGuest" = 0
+        "LmCompatibilityLevel" = 5
+        "UseMachineId" = 1
+        "TurnOffAnonymousBlock" = 1
+        "CrashOnAuditFail" = 0
+        "LimitBlankPasswordUse" = 1
+        "NoLMHash" = 1
+        "SCENoApplyLegacyAuditPolicy" = 1
     }
-    "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Kernel" = @{
-        "ObCaseInsensitive" = 1
+    "HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedExactPaths" = @{
+        "Machine" = "System\CurrentControlSet\Control\ProductOptions System\CurrentControlSet\Control\Server Applications Software\Microsoft\Windows NT\CurrentVersion"
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0" = @{
+        "AllowNullSessionFallback" = 0
+        "NTLMMinServerSec" = 537395200
+        "NTLMMinClientSec" = 537395200
+        "AuditReceivingNTLMTraffic" = 2
+        "RestrictSendingNTLMTraffic" = 2
     }
     "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager" = @{
         "ProtectionMode" = 1
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Control\Print\Providers\LanMan Print Services\Servers" = @{
+        "AddPrinterDrivers" = 1
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\Winreg\AllowedPaths" = @{
+        "Machine" = "System\CurrentControlSet\Control\Print\Printers,System\CurrentControlSet\Services\Eventlog,Software\Microsoft\OLAP Server,Software\Microsoft\Windows NT\CurrentVersion\Print,Software\Microsoft\Windows NT\CurrentVersion\Windows,System\CurrentControlSet\Control\ContentIndex,System\CurrentControlSet\Control\Terminal Server,System\CurrentControlSet\Control\Terminal Server\UserConfig,System\CurrentControlSet\Control\Terminal Server\DefaultUserConfiguration,Software\Microsoft\Windows NT\CurrentVersion\Perflib,System\CurrentControlSet\Services\SysmonLog,System\CurrentControlSet\Services\CertSvc,System\CurrentControlSet\Services\WINS"
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters" = @{
+        "EnablePlainTextPassword" = 0
+        "EnableSecuritySignature" = 1
+        "RequireSecuritySignature" = 1
+    }
+    "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" = @{
+        "LegalNoticeText" = "Sample Text"
+        "NoConnectedUser" = 3
+        "PromptOnSecureDesktop" = 1
+        "ConsentPromptBehaviorAdmin" = 1
+        "DisableCAD" = 0
+        "FilterAdministratorToken" = 1
+        "EnableInstallerDetection" = 1
+        "EnableLUA" = 1
+        "DontDisplayLastUserName" = 1
+        "EnableVirtualization" = 1
+        "LegalNoticeCaption" = "Sample Text"
+        "ConsentPromptBehaviorUser" = 0
+        "ShutdownWithoutLogon" = 0
+        "EnableSecureUIAPaths" = 1
+        "InactivityTimeoutSecs" = 900
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters" = @{
+        "DisablePasswordChange" = 0
+        "MaximumPasswordAge" = 30
+        "SignSecureChannel" = 1
+        "SealSecureChannel" = 1
+        "RequireStrongKey" = 1
+        "RequireSignOrSeal" = 1
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters" = @{
+        "NullSessionShares" = "<none>"
+        "RestrictNullSessAccess" = 1
+        "RequireSecuritySignature" = 1
+        "enableforcedlogoff" = 1
+        "EnableSecuritySignature" = 1
+        "AutoDisconnect" = 15
     }
 }
 $L1Section5DC = @{
@@ -194,301 +187,295 @@ $L1Section18DC = @{
     }
 }
 $L1Section18MSDC = @{
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization" = @{
-        "NoLockScreenCamera" = 1
-        "NoLockScreenSlideshow" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\InputPersonalization" = @{
-        "AllowInputPersonalization" = 0
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Control\Print" = @{
-        "RpcAuthnLevelPrivacyEnabled" = 1
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Services\mrxsmb10" = @{
-        "Start" = 4
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" = @{
-        "SMB1" = 0
-    }
-    "HKLM\SOFTWARE\Microsoft\Cryptography\Wintrust\Config" = @{
-        "EnableCertPaddingCheck" = 1
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" = @{
-        "DisableExceptionChainValidation" = 0
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" = @{
-        "RunAsPPL" = 1
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Services\NetBT\Parameters" = @{
-        "NodeType" = 2
-        "NoNameReleaseOnDemand" = 1
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest" = @{
-        "UseLogonCredential" = 0
-    }
-    "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" = @{
-        "AutoAdminLogon" = 0
-        "ScreenSaverGracePeriod" = 5
+    "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\CredUI" = @{
+        "EnumerateAdministrators" = 0
     }
     "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters" = @{
         "DisableIPSourceRouting" = 2
     }
-    "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" = @{
-        "DisableIPSourceRouting" = 2
-        "EnableICMPRedirect" = 0
-    }
     "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager" = @{
         "SafeDllSearchMode" = 1
     }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" = @{
-        "EnableNetbios" = 0
-        "EnableMulticast" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation" = @{
-        "AllowInsecureGuestAuth" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Network Connections" = @{
-        "NC_AllowNetBridge_NLA" = 0
-        "NC_ShowSharedAccessUI" = 0
-        "NC_StdDomainUserSetLocation" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths" = @{
-        "\\*\NETLOGON" = "RequireMutualAuthentication=1, RequireIntegrity=1, RequirePrivacy=1"
-        "\\*\SYSVOL" = "RequireMutualAuthentication=1, RequireIntegrity=1, RequirePrivacy=1"
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\WcmSvc\GroupPolicy" = @{
-        "fMinimizeConnections" = 3
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Printers" = @{
-        "RedirectionguardPolicy" = 1
-        "CopyFilesPolicy" = 1
-        "DisableWebPnPDownload" = 1
+    "HKLM\SOFTWARE\Policies\Microsoft\MicrosoftAccount" = @{
+        "DisableUserAuth" = 1
     }
     "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Printers\RPC" = @{
-        "RpcUseNamedPipeProtocol" = 0
-        "RpcAuthentication" = 0
         "RpcProtocols" = 5
         "ForceKerberosForRpc" = 0
+        "RpcAuthentication" = 0
         "RpcTcpPort" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Printers\PointAndPrint" = @{
-        "RestrictDriverInstallationToAdministrators" = 1
-        "NoWarningNoElevationOnInstall" = 0
-        "UpdatePromptSettings" = 0
-    }
-    "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit" = @{
-        "ProcessCreationIncludeCmdLine_Enabled" = 1
-    }
-    "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters" = @{
-        "AllowEncryptionOracle" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation" = @{
-        "AllowProtectedCreds" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Device Metadata" = @{
-        "PreventDeviceMetadataFromNetwork" = 1
-    }
-    "HKLM\SYSTEM\CurrentControlSet\Policies\EarlyLaunch" = @{
-        "DriverLoadPolicy" = 3
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Group Policy\{35378EAC-683F-11D2-A89A-00C04FBBCFA
-2}" = @{
-        "NoBackgroundPolicy" = 0
-        "NoGPOListChanges" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Group Policy\{827D319E-6EAC-11D2-A4EA-00C04F79F83
-A}" = @{
-        "NoBackgroundPolicy" = 0
-        "NoGPOListChanges" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" = @{
-        "EnableCdp" = 0
-        "BlockUserFromShowingAccountDetailsOnSignin" = 1
-        "DontDisplayNetworkSelectionUI" = 1
-        "DontEnumerateConnectedUsers" = 1
-        "DisableLockScreenAppNotifications" = 1
-        "BlockDomainPicturePassword" = 1
-        "AllowDomainPINLogon" = 0
-        "EnableSmartScreen" = 1
-        "ShellSmartScreenLevel" = "Block"
-    }
-    "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" = @{
-        "DisableBkGndGroupPolicy" = "does not exist"
-        "MSAOptional" = 1
-        "DisableAutomaticRestartSignOn" = 1
-    }
-    "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" = @{
-        "NoWebServices" = 1
-        "NoAutorun" = 1
-        "NoDriveTypeAutoRun" = 255
-        "PreXPSP2ShellProtocolBehavior" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Kernel DMA Protection" = @{
-        "DeviceEnumerationPolicy" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51" = @{
-        "DCSettingIndex" = 1
-        "ACSettingIndex" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" = @{
-        "fAllowUnsolicited" = 0
-        "fAllowToGetHelp" = 0
-        "DisablePasswordSaving" = 1
-        "fDisableCdm" = 1
-        "fPromptForPassword" = 1
-        "fEncryptRPCTraffic" = 1
-        "SecurityLayer" = 2
-        "UserAuthentication" = 1
-        "MinEncryptionLevel" = 3
-        "DeleteTempDirsOnExit" = 1
-        "PerSessionTempDir" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\W32Time\TimeProviders\NtpClient" = @{
-        "Enabled" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" = @{
-        "NoAutoplayfornonVolume" = 1
-        "NoDataExecutionPrevention" = 0
-        "NoHeapTerminationOnCorruption" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Biometrics\FacialFeatures" = @{
-        "EnhancedAntiSpoofing" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" = @{
-        "DisableConsumerAccountStateContent" = 1
-        "DisableWindowsConsumerFeatures" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Connect" = @{
-        "RequirePinForPairing" = 2
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\CredUI" = @{
-        "DisablePasswordReveal" = 1
-    }
-    "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\CredUI" = @{
-        "EnumerateAdministrators" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" = @{
-        "AllowTelemetry" = 1
-        "DisableOneSettingsDownloads" = 1
-        "DoNotShowFeedbackNotifications" = 1
-        "EnableOneSettingsAuditing" = 1
-        "LimitDiagnosticLogCollection" = 1
-        "LimitDumpCollection" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\PreviewBuilds" = @{
-        "AllowBuildPreview" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppInstaller" = @{
-        "EnableAppInstaller" = 0
-        "EnableExperimentalFeatures" = 0
-        "EnableHashOverride" = 0
-        "EnableMSAppInstallerProtocol" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application" = @{
-        "Retention" = 0
-        "MaxSize" = 32768
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security" = @{
-        "Retention" = 0
-        "MaxSize" = 196608
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup" = @{
-        "Retention" = 0
-        "MaxSize" = 32768
+        "RpcUseNamedPipeProtocol" = 0
     }
     "HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\System" = @{
         "Retention" = 0
         "MaxSize" = 32768
     }
-    "HKLM\SOFTWARE\Policies\Microsoft\MicrosoftAccount" = @{
-        "DisableUserAuth" = 1
+    "HKLM\SYSTEM\CurrentControlSet\Services\mrxsmb10" = @{
+        "Start" = 4
     }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" = @{
-        "LocalSettingOverrideSpynetReporting" = 0
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\PreviewBuilds" = @{
+        "AllowBuildPreview" = 0
     }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR" = @{
-
-        "ExploitGuard_ASR_Rules" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules
-" = @{
-        "26190899-1602-49e8-8b27-eb1d0a1ce869" = 1
-        "3b576869-a4ec-4529-8536-b80a7769e899" = 1
-        "56a863a9-875e-4185-98a7-b882c64b5ce5" = 1
-        "5beb7efe-fd9a-4556-801d-275e5ffc04cc" = 1
-        "75668c1f-73b5-4cf0-bb93-3ecf5cb7cc84" = 1
-        "7674ba52-37eb-4a4f-a9a1-f0f9a1619a2c" = 1
-        "92e97fa1-2edf-4476-bdd6-9dd0b4dddc7b" = 1
-        "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2" = 1
-        "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4" = 1
-        "be9ba2d9-53ea-4cdc-84e5-9b1eeee46550" = 1
-        "d3e037e1-3eb8-44c8-a917-57927947596d" = 1
-        "d4f940ab-401b-4efc-aadc-ad5f3c50688a" = 1
-        "e6db77e5-3df2-4cf1-b95a-636979351e5b" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\Network P
-rotection" = @{
-        "EnableNetworkProtection" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine" = @{
-        "EnableFileHashComputation" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" = @{
-        "DisableIOAVProtection" = 0
-        "DisableRealtimeMonitoring" = 0
-        "DisableBehaviorMonitoring" = 0
-        "DisableScriptScanning" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Scan" = @{
-        "DisablePackedExeScanning" = 0
-        "DisableRemovableDriveScanning" = 0
-        "DisableEmailScanning" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" = @{
-        "PUAProtection" = 1
-        "DisableAntiSpyware" = 0
+    "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" = @{
+        "ScreenSaverGracePeriod" = 5
+        "AutoAdminLogon" = 0
     }
     "HKLM\SOFTWARE\Policies\Microsoft\Windows\OneDrive" = @{
         "DisableFileSyncNGSC" = 1
     }
-    "HKLM\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds" = @{
-        "DisableEnclosureDownload" = 1
+    "HKLM\SOFTWARE\Policies\Microsoft\W32Time\TimeProviders\NtpClient" = @{
+        "Enabled" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" = @{
+        "DisableAntiSpyware" = 0
+        "PUAProtection" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules" = @{
+        "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4" = 1
+        "be9ba2d9-53ea-4cdc-84e5-9b1eeee46550" = 1
+        "92e97fa1-2edf-4476-bdd6-9dd0b4dddc7b" = 1
+        "e6db77e5-3df2-4cf1-b95a-636979351e5b" = 1
+        "5beb7efe-fd9a-4556-801d-275e5ffc04cc" = 1
+        "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2" = 1
+        "56a863a9-875e-4185-98a7-b882c64b5ce5" = 1
+        "3b576869-a4ec-4529-8536-b80a7769e899" = 1
+        "d4f940ab-401b-4efc-aadc-ad5f3c50688a" = 1
+        "7674ba52-37eb-4a4f-a9a1-f0f9a1619a2c" = 1
+        "26190899-1602-49e8-8b27-eb1d0a1ce869" = 1
+        "d3e037e1-3eb8-44c8-a917-57927947596d" = 1
+        "75668c1f-73b5-4cf0-bb93-3ecf5cb7cc84" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51" = @{
+        "ACSettingIndex" = 1
+        "DCSettingIndex" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer" = @{
+        "AlwaysInstallElevated" = 0
+        "EnableUserControl" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Network Connections" = @{
+        "NC_StdDomainUserSetLocation" = 1
+        "NC_ShowSharedAccessUI" = 0
+        "NC_AllowNetBridge_NLA" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppInstaller" = @{
+        "EnableMSAppInstallerProtocol" = 0
+        "EnableHashOverride" = 0
+        "EnableExperimentalFeatures" = 0
+        "EnableAppInstaller" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application" = @{
+        "Retention" = 0
+        "MaxSize" = 32768
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization" = @{
+        "NoLockScreenCamera" = 1
+        "NoLockScreenSlideshow" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Group Policy\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}" = @{
+        "NoBackgroundPolicy" = 0
+        "NoGPOListChanges" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation" = @{
+        "AllowProtectedCreds" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\InputPersonalization" = @{
+        "AllowInputPersonalization" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" = @{
+        "LimitDumpCollection" = 1
+        "LimitDiagnosticLogCollection" = 1
+        "EnableOneSettingsAuditing" = 1
+        "AllowTelemetry" = 1
+        "DoNotShowFeedbackNotifications" = 1
+        "DisableOneSettingsDownloads" = 1
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Policies\EarlyLaunch" = @{
+        "DriverLoadPolicy" = 3
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" = @{
+        "fAllowToGetHelp" = 0
+        "fAllowUnsolicited" = 0
+        "UserAuthentication" = 1
+        "fPromptForPassword" = 1
+        "MinEncryptionLevel" = 3
+        "fEncryptRPCTraffic" = 1
+        "DeleteTempDirsOnExit" = 1
+        "PerSessionTempDir" = 1
+        "DisablePasswordSaving" = 1
+        "SecurityLayer" = 2
+        "fDisableCdm" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR" = @{
+        "ExploitGuard_ASR_Rules" = 1
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" = @{
+        "RunAsPPL" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" = @{
+        "NoAutoplayfornonVolume" = 1
+        "NoHeapTerminationOnCorruption" = 0
+        "NoDataExecutionPrevention" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\Network Protection" = @{
+        "EnableNetworkProtection" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths" = @{
+        "\\*\SYSVOL" = "RequireMutualAuthentication=1, RequireIntegrity=1, RequirePrivacy=1"
+        "\\*\NETLOGON" = "RequireMutualAuthentication=1, RequireIntegrity=1, RequirePrivacy=1"
     }
     "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" = @{
         "AllowIndexingEncryptedStoresOrItems" = 0
     }
-    "HKLM\SOFTWARE\Policies\Microsoft\WindowsInkWorkspace" = @{
-        "AllowWindowsInkWorkspace" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer" = @{
-        "EnableUserControl" = 0
-        "AlwaysInstallElevated" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client" = @{
-        "AllowBasic" = 0
-        "AllowUnencryptedTraffic" = 0
-        "AllowDigest" = 0
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service" = @{
-        "AllowBasic" = 0
-        "AllowUnencryptedTraffic" = 0
-        "DisableRunAs" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protecti
-on" = @{
-        "DisallowExploitProtectionOverride" = 1
-    }
-    "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" = @{
-        "NoAutoRebootWithLoggedOnUsers" = 0
-        "NoAutoUpdate" = 0
-        "ScheduledInstallDay" = 0
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" = @{
+        "EnableMulticast" = 0
+        "EnableNetbios" = 0
     }
     "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" = @{
         "ManagePreviewBuildsPolicyValue" = 1
         "DeferFeatureUpdates" = 1
+        "DeferQualityUpdatesPeriodInDays" = 0
         "DeferFeatureUpdatesPeriodInDays" = 180
         "DeferQualityUpdates" = 1
-        "DeferQualityUpdatesPeriodInDays" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\CredUI" = @{
+        "DisablePasswordReveal" = 1
+    }
+    "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit" = @{
+        "ProcessCreationIncludeCmdLine_Enabled" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\WindowsInkWorkspace" = @{
+        "AllowWindowsInkWorkspace" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" = @{
+        "LocalSettingOverrideSpynetReporting" = 0
+    }
+    "HKLM\SOFTWARE\Microsoft\Cryptography\Wintrust\Config" = @{
+        "EnableCertPaddingCheck" = 1
+    }
+    "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" = @{
+        "DisableAutomaticRestartSignOn" = 1
+        "MSAOptional" = 1
+        "DisableBkGndGroupPolicy" = "does not exist"
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Group Policy\{827D319E-6EAC-11D2-A4EA-00C04F79F83A}" = @{
+        "NoBackgroundPolicy" = 0
+        "NoGPOListChanges" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds" = @{
+        "DisableEnclosureDownload" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup" = @{
+        "Retention" = 0
+        "MaxSize" = 32768
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\WcmSvc\GroupPolicy" = @{
+        "fMinimizeConnections" = 3
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" = @{
+        "DisableConsumerAccountStateContent" = 1
+        "DisableWindowsConsumerFeatures" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Biometrics\FacialFeatures" = @{
+        "EnhancedAntiSpoofing" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service" = @{
+        "DisableRunAs" = 1
+        "AllowUnencryptedTraffic" = 0
+        "AllowBasic" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Connect" = @{
+        "RequirePinForPairing" = 2
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client" = @{
+        "AllowDigest" = 0
+        "AllowUnencryptedTraffic" = 0
+        "AllowBasic" = 0
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Control\Print" = @{
+        "RpcAuthnLevelPrivacyEnabled" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Scan" = @{
+        "DisablePackedExeScanning" = 0
+        "DisableEmailScanning" = 0
+        "DisableRemovableDriveScanning" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" = @{
+        "ScheduledInstallDay" = 0
+        "NoAutoUpdate" = 0
+        "NoAutoRebootWithLoggedOnUsers" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Device Metadata" = @{
+        "PreventDeviceMetadataFromNetwork" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security" = @{
+        "Retention" = 0
+        "MaxSize" = 196608
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation" = @{
+        "AllowInsecureGuestAuth" = 1
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" = @{
+        "SMB1" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Printers" = @{
+        "RedirectionguardPolicy" = 1
+        "DisableWebPnPDownload" = 1
+        "CopyFilesPolicy" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\Kernel DMA Protection" = @{
+        "DeviceEnumerationPolicy" = 0
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest" = @{
+        "UseLogonCredential" = 0
+    }
+    "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters" = @{
+        "AllowEncryptionOracle" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection" = @{
+        "DisallowExploitProtectionOverride" = 1
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Services\NetBT\Parameters" = @{
+        "NoNameReleaseOnDemand" = 1
+        "NodeType" = 2
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" = @{
+        "DisableIOAVProtection" = 0
+        "DisableScriptScanning" = 0
+        "DisableRealtimeMonitoring" = 0
+        "DisableBehaviorMonitoring" = 0
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" = @{
+        "EnableSmartScreen" = 1
+        "BlockDomainPicturePassword" = 1
+        "EnableCdp" = 0
+        "AllowDomainPINLogon" = 0
+        "DisableLockScreenAppNotifications" = 1
+        "DontDisplayNetworkSelectionUI" = 1
+        "BlockUserFromShowingAccountDetailsOnSignin" = 1
+        "DontEnumerateConnectedUsers" = 1
+        "ShellSmartScreenLevel" = "Block"
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" = @{
+        "DisableExceptionChainValidation" = 0
+    }
+    "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" = @{
+        "EnableICMPRedirect" = 0
+        "DisableIPSourceRouting" = 2
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine" = @{
+        "EnableFileHashComputation" = 1
+    }
+    "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Printers\PointAndPrint" = @{
+        "UpdatePromptSettings" = 0
+        "NoWarningNoElevationOnInstall" = 0
+        "RestrictDriverInstallationToAdministrators" = 1
+    }
+    "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" = @{
+        "NoWebServices" = 1
+        "PreXPSP2ShellProtocolBehavior" = 0
+        "NoAutorun" = 1
+        "NoDriveTypeAutoRun" = 255
     }
 }
 $L1Section19MSDC = @{
